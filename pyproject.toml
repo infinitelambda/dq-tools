@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "dq-tools"
+version = "2.0.0"
+description = "Data Quality package"
+authors = ["IL <dat@infinitelambda.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+dbt-core = "1.2.0"
+dbt-snowflake = "1.2.0"
+# dbt-bigquery = "1.2.0"
+pre-commit = "^2.17.0"
+
+[tool.poetry.dev-dependencies]
+poethepoet = "^0.12.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poe.tasks]
+git-hooks = { "shell" = "pre-commit install --install-hooks && pre-commit install --hook-type commit-msg" }

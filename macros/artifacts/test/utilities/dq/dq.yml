@@ -1,0 +1,15 @@
+version: 2
+
+macros:
+  - name: __get_kpi_categorize
+    description: |
+      Get `kpi_catogory` configured in the test. Otherwise value is auto-assigned.
+  - name: __auto_categorize_kpi
+    description: |
+      Get `kpi_catogory` based on the test name
+  - name: __get_dq_issue_type
+    description: |
+      Get `dq_issue_type` configured in the test. Otherwise value is auto-assigned.
+  - name: __auto_dq_issue_type
+    description: |
+      Get `kpi_catogory` based on the test name

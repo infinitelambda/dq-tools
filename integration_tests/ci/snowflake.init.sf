@@ -1,0 +1,30 @@
+use warehouse {{ your_warehouse }};
+-- create database
+use role sysadmin;
+create or replace database {{ your_database }} with comment = 'Database for dq-tools integration tests';
+
+-- create role transform
+use role securityadmin;
+create or replace role role_transform_{{ your_database }} with comment = 'Role for dq-tools integration tests';
+grant usage on warehouse {{ your_warehouse }}  to role role_transform_{{ your_database }};
+grant usage on database {{ your_database }} to role role_transform_{{ your_database }};
+grant all privileges on database {{ your_database }} to role role_transform_{{ your_database }};
+grant all privileges on all schemas in database {{ your_database }} to role role_transform_{{ your_database }};
+grant all privileges on future schemas in database {{ your_database }} to role role_transform_{{ your_database }};
+grant all privileges on all tables in database {{ your_database }} to role role_transform_{{ your_database }};
+grant all privileges on future tables in database {{ your_database }} to role role_transform_{{ your_database }};
+grant all privileges on all views in database {{ your_database }} to role role_transform_{{ your_database }};
+grant all privileges on future views in database {{ your_database }} to role role_transform_{{ your_database }};
+grant usage,create schema on database {{ your_database }} to role role_transform_{{ your_database }};
+grant role role_transform_{{ your_database }} to role sysadmin;
+
+-- create user
+use role securityadmin;
+create or replace user {{ your_database }}_user with password = '{{ your_password }}' comment = 'User for dq-tools integration tests';
+grant role role_transform_{{ your_database }} to user {{ your_database }}_user;
+alter user {{ your_database }}_user set default_role = role_transform_{{ your_database }};
+
+-- set context
+use role role_transform_{{ your_database }};
+use warehouse {{ your_warehouse }};
+use database {{ your_database }};

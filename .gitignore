@@ -1,0 +1,12 @@
+*.DS_Store
+poetry.lock
+profiles.yml
+target/
+dbt_modules/
+dbt_packages/
+logs/
+venv/
+env/
+test.env
+__pycache__
+/integration_tests/*/overview.md # used in `run_publish_docs.sh` ci process

@@ -1,0 +1,20 @@
+version: 2
+
+seeds:
+  - name: data_test_equal_rowcount_a
+    tests:
+      - dq_tools.equal_rowcount_where_db:
+          compare_model: ref('data_test_equal_rowcount_b')
+      - dq_tools.equal_rowcount_where_db:
+          where: id != -1
+          compare_model: ref('data_test_equal_rowcount_b')
+          compare_model_where: id != -1
+      - dq_tools.equal_rowcount_where_db:
+          where: id = -1
+          compare_model: (select 1 as id)
+
+  - name: data_test_equal_rowcount_b
+    tests:
+      - dq_tools.equal_rowcount_where_db:
+          where: id = -1
+          compare_model: (select 1 as id)

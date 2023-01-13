@@ -1,0 +1,5 @@
+id,customer_id,location
+1,1000,AU
+2,2000,US
+3,1000,UK
+-1,9999,NA

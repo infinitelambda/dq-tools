@@ -1,0 +1,57 @@
+config:
+    send_anonymous_usage_stats: False
+    use_colors: True
+
+dq_tools_integration_tests:
+  target: snowflake
+  outputs:
+    snowflake:
+      type: snowflake
+      account: "{{ env_var('DBT_SNOWFLAKE_TEST_ACCOUNT') }}"
+      user: "{{ env_var('DBT_SNOWFLAKE_TEST_USER') }}"
+      password: "{{ env_var('DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD') }}"
+      role: "{{ env_var('DBT_SNOWFLAKE_TEST_ROLE') }}"
+      database: "{{ env_var('DBT_SNOWFLAKE_TEST_DATABASE') }}"
+      warehouse: "{{ env_var('DBT_SNOWFLAKE_TEST_WAREHOUSE') }}"
+      schema: dq_tools_integration_tests
+      threads: 10
+
+    bigquery:
+      type: bigquery
+      method: service-account
+      keyfile: "{{ env_var('DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH') }}"
+      project: "{{ env_var('DBT_BIGQUERY_TEST_DATABASE') }}"
+      dataset: dq_tools_integration_tests
+      threads: 10
+      # method: service-account-json # quick win / temp works
+      # keyfile_json: # quick win / temp works
+      #   type: "{{ env_var('DBT_ENV_SECRET_BIGQUERY_TYPE') }}"
+      #   project_id: "{{ env_var('DBT_BIGQUERY_TEST_DATABASE') }}"
+      #   private_key_id: "{{ env_var('DBT_ENV_SECRET_BIGQUERY_PRIVATE_KEY_ID') }}"
+      #   private_key: "{{ env_var('DBT_ENV_SECRET_BIGQUERY_PRIVATE_KEY') }}"
+      #   client_email: "{{ env_var('DBT_ENV_SECRET_BIGQUERY_CLIENT_EMAIL') }}"
+      #   client_id: "{{ env_var('DBT_ENV_SECRET_BIGQUERY_CLIENT_ID') }}"
+      #   auth_uri: "{{ env_var('DBT_ENV_SECRET_BIGQUERY_AUTH_URI') }}"
+      #   token_uri: "{{ env_var('DBT_ENV_SECRET_BIGQUERY_TOKEN_URI') }}"
+      #   auth_provider_x509_cert_url: "{{ env_var('DBT_ENV_SECRET_BIGQUERY_AUTH_PROVIDER_X509_CERT_URL') }}"
+      #   client_x509_cert_url: "{{ env_var('DBT_ENV_SECRET_BIGQUERY_CLIENT_X509_CERT_URL') }}"
+
+    postgres:
+      type: postgres
+      host: "{{ env_var('DBT_POSTGRES_TEST_HOST') }}"
+      user: "{{ env_var('DBT_POSTGRES_TEST_USER') }}"
+      pass: "{{ env_var('DBT_ENV_SECRET_POSTGRES_TEST_PASS') }}"
+      port: "{{ env_var('DBT_POSTGRES_TEST_PORT') | as_number }}"
+      dbname: "{{ env_var('DBT_POSTGRES_TEST_DBNAME') }}"
+      schema: dq_tools_integration_tests
+      threads: 5
+
+    redshift:
+      type: redshift
+      host: "{{ env_var('DBT_REDSHIFT_TEST_HOST') }}"
+      user: "{{ env_var('DBT_REDSHIFT_TEST_USER') }}"
+      pass: "{{ env_var('DBT_ENV_SECRET_REDSHIFT_TEST_PASS') }}"
+      dbname: "{{ env_var('DBT_REDSHIFT_TEST_DBNAME') }}"
+      port: "{{ env_var('DBT_REDSHIFT_TEST_PORT') | as_number }}"
+      schema: dq_tools_integration_tests
+      threads: 5

@@ -1,0 +1,49 @@
+name: 'dq_tools_integration_tests'
+version: '1.0'
+
+profile: 'dq_tools_integration_tests'
+
+# require-dbt-version: inherit this from dbt-utils
+
+config-version: 2
+
+model-paths: ["models"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+    - "target"
+    - "dbt_modules"
+    - "dbt_packages"
+    - "logs"
+
+dispatch:
+  - macro_namespace: 'dq_tools'
+    search_order: ['dq_tools_integration_tests', 'dq_tools', 'dbt']
+  - macro_namespace: 'dbt_utils'
+    search_order: ['dq_tools_integration_tests', 'dbt', 'dbt_utils']
+
+on-run-start:
+  # Drop dq_issue_log table in the fresh run / Probably test won't drop the table
+  - >
+    {% if var('fresh', false) %}
+      {{ "create or replace schema " ~ target.schema }};
+      {{ "create or replace schema " ~ var("dbt_dq_tool_schema", target.schema) }};
+    {% endif %}
+
+on-run-end:
+  - '{{ dq_tools.store_test_results(results) }}'
+
+vars:
+  dbt_dq_tool_schema: dq_raw
+
+seeds:
+  dq_tools_integration_tests:
+    +schema: seed
+
+models:
+  dq_tools:
+    03_mart:
+      +enabled: true

@@ -1,0 +1,19 @@
+name: 'dq_tools'
+config-version: 2
+version: '1.1.2'
+require-dbt-version: ">=1.0.0"
+
+test-paths: ["tests"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+macro-paths: ["macros"]
+log-path: "logs"
+model-paths: ["models"]
+
+models:
+  dq_tools:
+    +enabled: false
+
+vars:
+  # dbt_dq_tool_schema: dq_raw
+  # dq_tools_enable_store_test_results: true

@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: test_recency
+    tests:
+      - dq_tools.recency_db:
+          field: today
+          datepart: day
+          interval: 1
+      - dbt_utils.expression_is_true:
+          expression: 1 = 1
+          meta:
+            kpi_category: Validity
+    columns:
+      - name: today
+        tests:
+          - dq_tools.recency_db:
+              datepart: hour
+              interval: 24

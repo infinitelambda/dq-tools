@@ -1,0 +1,176 @@
+version: 2
+
+macros:
+  - name: store_test_results
+    description: |
+      # Purpose
+      Select only the test results and store it into DWH table.
+
+      Add "{{ '{{' }} store_test_results(results) {{ '}}' }}" to an `on-run-end:` block in dbt_project.yml
+
+      # Technical perspective
+      Integrated from [store_test_failures.sql](https://gist.github.com/lbk-fishtown/e1a2ae63dd4b9832294dda7f4be0d5c5)
+
+      Smaple data in `results` variable by test type:
+      ### Generic Test (CompiledGenericTestNode)
+
+        ```python
+        RunResult(
+          status=<TestStatus.Pass: 'pass'>,
+          timing=[
+            TimingInfo(name='compile', started_at=datetime.datetime(2022, 8, 25, 7, 33, 2, 104081), completed_at=datetime.datetime(2022, 8, 25, 7, 33, 6, 329281)),
+            TimingInfo(name='execute', started_at=datetime.datetime(2022, 8, 25, 7, 33, 6, 329711), completed_at=datetime.datetime(2022, 8, 25, 7, 33, 7, 41025))
+          ],
+          thread_id='Thread-2',
+          execution_time=5.455570936203003,
+          adapter_response={},
+          message=None,
+          failures=0,
+          node=CompiledGenericTestNode(
+            raw_sql='<actual model code in one line>',
+            test_metadata=TestMetadata(
+              name='relationships_where_db',
+              kwargs={'from_condition': 'a_id < 0', 'to': "ref('data_test_relationships_b')", 'to_condition': 'b_id < 0', 'field': 'b_id', 'column_name': 'a_id', 'model': "{{'{{'}} get_where_subquery(ref('data_test_relationships_a')) {{'}}'}}"},
+              namespace='dq_tools'
+            ),
+            compiled=True,
+            database='DQ_TOOLS',
+            schema='dq_tools_integration_tests_snowflake_dbt_test__audit',
+            fqn=['dq_tools_integration_tests', 'generic_tests', 'dq_tools_relationships_where_db_data_test_relationships_a_a_id__b_id__a_id_0__ref_data_test_relationships_b___b_id_0'],
+            unique_id='test.dq_tools_integration_tests.dq_tools_relationships_where_db_data_test_relationships_a_a_id__b_id__a_id_0__ref_data_test_relationships_b___b_id_0.f7a24f1838',
+            package_name='dq_tools_integration_tests',
+            root_path='/Users/admin/Documents/sources/bi-chapter/dq-tools/integration_tests',
+            path='dq_tools_relationships_where_d_06c3883fe1e3cb0f9f22ae8248249810.sql',
+            original_file_path='models/generic_tests/data_test_relationships.yml',
+            name='dq_tools_relationships_where_db_data_test_relationships_a_a_id__b_id__a_id_0__ref_data_test_relationships_b___b_id_0',
+            resource_type=<NodeType.Test: 'test'>, alias='dq_tools_relationships_where_d_06c3883fe1e3cb0f9f22ae8248249810',
+            checksum=FileHash(
+              name='none',
+              checksum=''
+            ),
+            config=TestConfig(
+              _extra={},
+              enabled=True,
+              alias='dq_tools_relationships_where_d_06c3883fe1e3cb0f9f22ae8248249810',
+              schema='dbt_test__audit',
+              database=None,
+              tags=[],
+              meta={},
+              materialized='test',
+              severity='warn',
+              store_failures=None,
+              where=None,
+              limit=None,
+              fail_calc='count(*)',
+              warn_if='!= 0',
+              error_if='!= 0'
+            ),
+            _event_status={'node_status': <RunningStatus.Executing: 'executing'>},
+            tags=[],
+            refs=[['data_test_relationships_b'], ['data_test_relationships_a']],
+            sources=[],
+            metrics=[],
+            depends_on=DependsOn(
+              macros=['macro.dq_tools.test_relationships_where_db', 'macro.dbt.get_where_subquery', 'macro.dbt.should_store_failures', 'macro.dbt.statement'],
+              nodes=['seed.dq_tools_integration_tests.data_test_relationships_b', 'seed.dq_tools_integration_tests.data_test_relationships_a']
+            ),
+            description='',
+            columns={},
+            meta={},
+            docs=Docs(show=True),
+            patch_path=None,
+            compiled_path='target/compiled/dq_tools_integration_tests/models/generic_tests/data_test_relationships.yml/dq_tools_relationships_where_d_06c3883fe1e3cb0f9f22ae8248249810.sql',
+            build_path='target/run/dq_tools_integration_tests/models/generic_tests/data_test_relationships.yml/dq_tools_relationships_where_d_06c3883fe1e3cb0f9f22ae8248249810.sql',
+            deferred=False,
+            unrendered_config={'severity': 'warn', 'alias': 'dq_tools_relationships_where_d_06c3883fe1e3cb0f9f22ae8248249810'},
+            created_at=1661168082.5305338,
+            config_call_dict={'severity': 'warn', 'alias': 'dq_tools_relationships_where_d_06c3883fe1e3cb0f9f22ae8248249810'}, compiled_sql='\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    \n\n\n    with left_table as (\n\n        select\n          a_id as ref_id\n\n        from DQ_TOOLS.dq_tools_integration_tests_snowflake_seed.data_test_relationships_a\n\n        where a_id is not null\n          and a_id < 0\n          \n\n      ),\n\n      right_table as (\n\n        select\n          b_id as ref_id\n\n        from DQ_TOOLS.dq_tools_integration_tests_snowflake_seed.data_test_relationships_b\n\n        where b_id is not null\n          and b_id < 0\n\n      )\n\n      select\n          *\n      from left_table\n          left join right_table\n          on left_table.ref_id = right_table.ref_id\n      where right_table.ref_id is null\n\n\n',
+            extra_ctes_injected=True,
+            extra_ctes=[],
+            relation_name=None,
+            _pre_injected_sql=None,
+            column_name='a_id',
+            file_key_name='seeds.data_test_relationships_a'
+          ),
+          agate_table=None
+        )
+        ```
+
+      #### Singular Test (CompiledSingularTestNode)
+
+        ```python
+        RunResult(
+          status=<TestStatus.Pass: 'pass'>,
+          timing=[
+            TimingInfo(name='compile', started_at=datetime.datetime(2022, 8, 25, 7, 33, 2, 103945), completed_at=datetime.datetime(2022, 8, 25, 7, 33, 2, 161586)),
+            TimingInfo(name='execute', started_at=datetime.datetime(2022, 8, 25, 7, 33, 2, 161871), completed_at=datetime.datetime(2022, 8, 25, 7, 33, 5, 367202))
+          ],
+          thread_id='Thread-1',
+          execution_time=3.7876031398773193,
+          adapter_response={},
+          message=None,
+          failures=0,
+          node=CompiledSingularTestNode(
+            raw_sql='<actual model code in one line>',
+            compiled=True,
+            database='DQ_TOOLS',
+            schema='dq_tools_integration_tests_snowflake_dbt_test__audit',
+            fqn=['dq_tools_integration_tests', 'general', 'assert_dq_issue_log_table_creation'],
+            unique_id='test.dq_tools_integration_tests.assert_dq_issue_log_table_creation',
+            package_name='dq_tools_integration_tests',
+            root_path='/Users/admin/Documents/sources/bi-chapter/dq-tools/integration_tests',
+            path='general/assert_dq_issue_log_table_creation.sql',
+            original_file_path='tests/general/assert_dq_issue_log_table_creation.sql',
+            name='assert_dq_issue_log_table_creation',
+            resource_type=<NodeType.Test: 'test'>,
+            alias='assert_dq_issue_log_table_creation',
+            checksum=FileHash(
+              name='sha256',
+              checksum='c6f1bb222565802847412e06e47ddfe86222614652f682bc3a7bc67c6ac74528'
+            ),
+            config=TestConfig(
+              _extra={},
+              enabled=True,
+              alias=None,
+              schema='dbt_test__audit',
+              database=None,
+              tags=[],
+              meta={'kpi_category': 'Validity'},
+              materialized='test',
+              severity='error',
+              store_failures=None,
+              where=None,
+              limit=None,
+              fail_calc='count(*)',
+              warn_if='!= 0',
+              error_if='!= 0'
+            ),
+            _event_status={'node_status': <RunningStatus.Executing: 'executing'>},
+            tags=[],
+            refs=[],
+            sources=[],
+            metrics=[],
+            depends_on=DependsOn(
+              macros=['macro.dbt.should_store_failures', 'macro.dbt.statement'],
+              nodes=[]
+            ),
+            description='',
+            columns={},
+            meta={'kpi_category': 'Validity'},
+            docs=Docs(show=True),
+            patch_path=None,
+            compiled_path='target/compiled/dq_tools_integration_tests/tests/general/assert_dq_issue_log_table_creation.sql',
+            build_path='target/run/dq_tools_integration_tests/tests/general/assert_dq_issue_log_table_creation.sql',
+            deferred=False,
+            unrendered_config={'severity': 'error', 'meta': {'kpi_category': 'Validity'}},
+            created_at=1661168082.324693,
+            config_call_dict={'meta': {'kpi_category': 'Validity'}},
+            compiled_sql="\n\nwith tables as (\n\n  select  *\n  from    information_schema.tables\n  where   table_schema = 'DQ_RAW'\n    and   table_name = 'DQ_ISSUE_LOG'\n\n)\n\nselect  1\nwhere   not exists (select 1 from tables limit 1)",
+            extra_ctes_injected=True,
+            extra_ctes=[],
+            relation_name=None,
+            _pre_injected_sql=None
+          ),
+          agate_table=None
+        )
+        ```

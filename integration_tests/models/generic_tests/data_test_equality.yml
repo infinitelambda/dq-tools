@@ -1,0 +1,21 @@
+version: 2
+
+seeds:
+  - name: data_test_equality_a
+    tests:
+      - dq_tools.equality_where_db:
+          compare_model: ref('data_test_equality_b')
+          compare_columns: ['id']
+      - dq_tools.equality_where_db:
+          compare_model: ref('data_test_equality_b')
+          compare_columns: ['id', 'name']
+      - dq_tools.equality_where_db:
+          where: id != -1
+          compare_model: ref('data_test_equality_b')
+          compare_model_where: id != -1
+          compare_columns: ['id', 'name']
+      - dq_tools.equality_where_db:
+          where: id not in (-1, 2)
+          compare_model: ref('data_test_equality_b')
+          compare_model_where: id not in (-1, 2)
+          compare_columns: ['id', 'name', 'age']

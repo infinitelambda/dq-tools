@@ -1,0 +1,7 @@
+version: 2
+
+macros:
+  - name: __get_column_name
+    description: Return column name
+  - name: __get_to_column_name
+    description: Return referenced column name (probably happen in relationship test)

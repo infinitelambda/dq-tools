@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: test__get_column_name
+    tests:
+      - dq_tools.expression_is_true_db:
+          expression: actual = expected
+  - name: test__get_to_column_name
+    tests:
+      - dq_tools.expression_is_true_db:
+          expression: actual = expected

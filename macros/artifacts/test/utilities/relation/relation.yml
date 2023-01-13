@@ -1,0 +1,15 @@
+version: 2
+
+macros:
+  - name: __get_relation
+    description: |
+      Get relation string for a node if found in the `graph` variable e.g. relationship test
+  - name: __get_to_relation
+    description: |
+      Get to-relation string only applicable to the relationship test. Otherwise returns empty.
+  - name: __get_relation_ref
+    description: |
+      Find the ref node in `graph` variable and return the relation string if found. Otherwise empty.
+  - name: __get_relation_source
+    description: |
+      Find the source node in `graph` variable and return the relation string if found. Otherwise empty.

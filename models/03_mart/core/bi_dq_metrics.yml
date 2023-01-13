@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: bi_dq_metrics
+    description: |
+      View containing the data quality metrics, and is used to build the dashboard.
+      ```
+      dq_score = sum(rows_passed) * 1.00 / sum(rows_processed) * 100
+      by dimensions:
+        - dq_dimension
+      ```
+    columns:
+      - name: run_time
+        description: Test running timestamp
+        tests:
+          - not_null
+      - name: rule_name
+        description: Rules will be used to build the Data quality KPI name
+        tests:
+          - not_null
+      - name: data_concept
+        description: The data concept e.g. table/view, a subquery, etc
+        tests:
+          - not_null:
+              config:
+                where: rule_name != 'business test'
+      - name: data_element
+        description: The data concept's element e.g. column
+      - name: indicator_category
+        description: Currently just support Simple Statistics
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Simple Statistics
+      - name: dq_dimension
+        description: |
+          Data Quayliy KPI name - 6 values
+          - Validity
+          - Timeliness
+          - Accuracy
+          - Uniqueness
+          - Completeness
+          - Consistency
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Validity
+                - Timeliness
+                - Accuracy
+                - Uniqueness
+                - Completeness
+                - Consistency
+      - name: rows_processed
+        description: Number of rows were proceeded
+        tests:
+          - not_null:
+              config:
+                where: rule_name != 'business test'
+          - dq_tools.expression_is_true_db:
+              config:
+                where: rule_name != 'business test'
+              expression: rows_failed >= 0
+      - name: rows_failed
+        description: Number of rows failed by the test
+        tests:
+          - not_null
+          - dq_tools.expression_is_true_db:
+              expression: rows_failed >= 0

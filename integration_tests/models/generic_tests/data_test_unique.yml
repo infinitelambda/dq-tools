@@ -1,0 +1,11 @@
+version: 2
+
+seeds:
+  - name: data_test_unique
+    tests:
+      - dq_tools.unique_where_db:
+          column_name: concat(customer_id, location)
+    columns:
+      - name: id
+        tests:
+          - dq_tools.unique_where_db

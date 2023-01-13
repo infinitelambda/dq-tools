@@ -1,0 +1,12 @@
+version: 2
+
+seeds:
+  - name: data_test_not_null
+    columns:
+      - name: id
+        tests:
+          - dq_tools.not_null_where_db
+      - name: name
+        tests:
+          - dq_tools.not_null_where_db:
+              where: id not in (-1, 2)

@@ -1,0 +1,24 @@
+version: 2
+
+seeds:
+  - name: data_test_relationships_b
+    columns:
+      - name: b_id
+        tests:
+          - dq_tools.relationships_where_db:
+              to: ref('data_test_relationships_a')
+              field: a_id
+  - name: data_test_relationships_a
+    columns:
+      - name: a_id
+        tests:
+          - dq_tools.relationships_where_db:
+              from_condition: a_id < 0
+              to: ref('data_test_relationships_b')
+              to_condition: b_id < 0
+              field: b_id
+          - dq_tools.relationships_where_db:
+              where: a_id < 0
+              to: ref('data_test_relationships_b')
+              to_condition: b_id < 0
+              field: b_id
