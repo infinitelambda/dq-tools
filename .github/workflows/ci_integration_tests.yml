@@ -9,9 +9,9 @@ jobs:
     strategy:
       matrix:
         dbt_adapter:
-          - ghcr.io/dbt-labs/dbt-snowflake:1.2.latest
-          - ghcr.io/dbt-labs/dbt-snowflake:1.3.latest
-    runs-on: ${{ matrix.dbt_adapter }}
+          - dbt-snowflake:1.2.latest
+          # - dbt-snowflake:1.3.latest
+    runs-on: ghcr.io/dbt-labs/${{ matrix.dbt_adapter }}
     steps:
       - uses: actions/checkout@v3
 
