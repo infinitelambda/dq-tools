@@ -16,17 +16,26 @@ jobs:
       image: "ghcr.io/dbt-labs/dbt-${{ matrix.adapter }}:${{ matrix.version }}.latest"
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set up credentials
+        if: ${{ contains(maxtrix.adapter, 'bigquery') }}
+        run: echo $DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON > ./bigquery-service-key.json
+        env:
+          DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON: ${{ secrets.DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH }}
+
       - name: Run integration test
         run: |
           chmod +x run_test.sh
           cp -fr ./integration_tests/packages_${{ matrix.version }}.yml ./integration_tests/packages.yml
           ./run_test.sh ${{ matrix.adapter }}
         env:
+          # SF
           DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
           DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
           DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD: ${{ secrets.DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD }}
           DBT_SNOWFLAKE_TEST_ROLE: ${{ secrets.DBT_SNOWFLAKE_TEST_ROLE }}
           DBT_SNOWFLAKE_TEST_DATABASE: ${{ secrets.DBT_SNOWFLAKE_TEST_DATABASE }}
           DBT_SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.DBT_SNOWFLAKE_TEST_WAREHOUSE }}
-          DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH: ${{ secrets.DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH }}
+          # BQ
+          DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH: "./bigquery-service-key.json"
           DBT_BIGQUERY_TEST_DATABASE: ${{ secrets.DBT_BIGQUERY_TEST_DATABASE }}
