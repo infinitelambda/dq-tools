@@ -35,9 +35,6 @@ runs:
     - ${{ inputs.dbt_command }}
     - ${{ inputs.dbt_project_folder }}
     - ${{ inputs.dbt_profile_dir }}
-  env:
-    DBT_ADAPTER: ${{ inputs.adapter }}
-    DBT_VERSION: ${{ inputs.version }}
 
 branding:
   icon: database
