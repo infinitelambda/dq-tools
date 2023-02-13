@@ -1,19 +1,19 @@
-name: "dbt action"
-description: "Run and schedule dbt commands directly in your Github repo"
-author: "Dat Nguyen"
+name: dbt action
+description: Run and schedule dbt commands directly in your Github repo
+author: Dat Nguyen
 
 inputs:
   dbt_command:
-    description: "dbt command"
-    default: "dbt run --profiles-dir ."
+    description: dbt command
+    default: dbt run --profiles-dir .
     required: true
   dbt_project_folder:
-    description: "dbt project folder. Defaults to ."
-    default: "."
+    description: dbt project folder. Defaults to .
+    default: .
     required: false
   dbt_profile_dir:
-    description: "dbt profile folder. Defaults to ."
-    default: "."
+    description: dbt profile folder. Defaults to .
+    default: .
     required: false
   dbt_adapter:
     description: "dbt adapter with version"
@@ -24,16 +24,16 @@ env:
 
 outputs:
   result:
-    description: "Success or failure of the dbt command"
+    description: Success or failure of the dbt command
 
 runs:
-  using: "docker"
-  image: ghcr.io/dbt-labs/${DBT_ADAPTER}
+  using: docker
+  image: Dockerfile-snowflake-1-3 # ghcr.io/dbt-labs/${DBT_ADAPTER}
   args:
     - ${{ inputs.dbt_command }}
     - ${{ inputs.dbt_project_folder }}
     - ${{ inputs.dbt_profile_dir }}
 
 branding:
-  icon: 'database'
-  color: 'purple'
+  icon: database
+  color: purple
