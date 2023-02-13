@@ -9,20 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        registry:
-          - ghcr.io/dbt-labs/
         dbt_adapter:
-          - dbt-snowflake:1.2.latest
-          # - dbt-snowflake:1.3.latest
+          - snowflake-1-2
     steps:
       - uses: actions/checkout@v3
 
-      - name: Prepare environment
-        run: chmod +x run_test.sh
-
       - name: Run integration test
-        uses: ${{ matrix.registry }}${{ matrix.dbt_adapter }}
-        run: ./run_test.sh snowflake
+        uses: ./.github/actions/dbt-action
+        with:
+          dbt_command: ./run_test.sh snowflake
+          dbt_adapter: ${{ matrix.dbt_adapter }}
         env:
           DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
           DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
