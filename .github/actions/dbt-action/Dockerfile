@@ -1,4 +1,4 @@
-ARG DBT_ADAPTER=dbt-snowflake:1.3.latest
+ARG DBT_ADAPTER=dbt-snowflake:1.2.latest
 FROM ghcr.io/dbt-labs/${DBT_ADAPTER}
 
 LABEL "maintainer"="Dat Nguyen <dat@infinitelambda.com>"
