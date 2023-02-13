@@ -10,12 +10,13 @@ jobs:
     strategy:
       matrix:
         dbt_adapter:
-          - dbt-snowflake:1.2.latest
+          - snowflake-1-2
+          - snowflake-1-3
     steps:
       - uses: actions/checkout@v3
 
       - name: Run integration test
-        uses: ./.github/actions/dbt-action
+        uses: ./.github/actions/dbt-action-${{ matrix.dbt_adapter }}
         with:
           dbt_command: ./run_test.sh snowflake
         env:
