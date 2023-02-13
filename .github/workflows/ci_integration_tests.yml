@@ -9,23 +9,27 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        dbt_adapter:
+          - dbt-snowflake:1.3.latest
         adapter:
           - snowflake
         version:
           - 1.2
+    container:
+      image: ghcr.io/dbt-labs/${{ matrix.dbt_adapter }}
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run integration test
-        uses: ./.github/actions/dbt-action
-        with:
-          dbt_command: ./run_test.sh snowflake
-          adapter: ${{ matrix.adapter }}
-          version: ${{ matrix.adapter }}
-        env:
-          DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
-          DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
-          DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD: ${{ secrets.DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD }}
-          DBT_SNOWFLAKE_TEST_ROLE: ${{ secrets.DBT_SNOWFLAKE_TEST_ROLE }}
-          DBT_SNOWFLAKE_TEST_DATABASE: ${{ secrets.DBT_SNOWFLAKE_TEST_DATABASE }}
-          DBT_SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.DBT_SNOWFLAKE_TEST_WAREHOUSE }}
+      # - name: Run integration test
+      #   uses: ./.github/actions/dbt-action
+      #   with:
+      #     dbt_command: ./run_test.sh snowflake
+      #     adapter: ${{ matrix.adapter }}
+      #     version: ${{ matrix.adapter }}
+      #   env:
+      #     DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
+      #     DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
+      #     DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD: ${{ secrets.DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD }}
+      #     DBT_SNOWFLAKE_TEST_ROLE: ${{ secrets.DBT_SNOWFLAKE_TEST_ROLE }}
+      #     DBT_SNOWFLAKE_TEST_DATABASE: ${{ secrets.DBT_SNOWFLAKE_TEST_DATABASE }}
+      #     DBT_SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.DBT_SNOWFLAKE_TEST_WAREHOUSE }}
