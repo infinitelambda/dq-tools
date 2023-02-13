@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set up credentials
-        run: echo $DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON > $GITHUB_WORKSPACE/bigquery-service-key.json
+        run: echo $DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON > /home/bigquery-service-key.json
         env:
           DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON: ${{ secrets.DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH }}
 
@@ -54,5 +54,5 @@ jobs:
           cp -fr ./integration_tests/packages_${{ matrix.version }}.yml ./integration_tests/packages.yml
           ./run_test.sh ${{ matrix.adapter }}
         env:
-          DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH: "$GITHUB_WORKSPACE/bigquery-service-key.json"
+          DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH: "/home/bigquery-service-key.json"
           DBT_BIGQUERY_TEST_DATABASE: ${{ secrets.DBT_BIGQUERY_TEST_DATABASE }}
