@@ -17,16 +17,15 @@ inputs:
     required: false
   dbt_adapter:
     description: "dbt adapter with version"
-    default: "snowflake"
     required: true
 env:
-  DBT_ADAPTER: ${{ inputs.dbt_adapter }}
+  VERSION: ${{ inputs.dbt_adapter }}
 outputs:
   result:
     description: "Success or failure of the dbt command"
 runs:
   using: "docker"
-  image: "Dockerfile-${DBT_ADAPTER}"
+  image: "Dockerfile-${VERSION}"
   args:
     - ${{ inputs.dbt_command }}
     - ${{ inputs.dbt_project_folder }}
