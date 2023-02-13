@@ -15,10 +15,6 @@ inputs:
     description: "dbt profile folder. Defaults to ."
     default: "."
     required: false
-  dbt_adapter:
-    description: "Specify dbt docker image name"
-    default: "dbt-snowflake:1.2.latest"
-    required: true
 outputs:
   result:
     description: "Success or failure of the dbt command"
@@ -30,7 +26,7 @@ runs:
     - ${{ inputs.dbt_project_folder }}
     - ${{ inputs.dbt_profile_dir }}
   env:
-    DBT_ADAPTER: ${{ inputs.dbt_adapter }}
+    DBT_ADAPTER: dbt-snowflake:1.2.latest
 branding:
   icon: 'database'  
   color: 'purple'
