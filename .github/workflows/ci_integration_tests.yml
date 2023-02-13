@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         dbt_adapter:
-          - snowflake-1-2
+          - dbt-snowflake:1.2.latest
     steps:
       - uses: actions/checkout@v3
 

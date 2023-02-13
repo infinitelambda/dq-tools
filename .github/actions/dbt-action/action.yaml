@@ -18,18 +18,22 @@ inputs:
   dbt_adapter:
     description: "dbt adapter with version"
     required: true
+
 env:
-  VERSION: ${{ inputs.dbt_adapter }}
+  DBT_ADAPTER: ${{ inputs.dbt_adapter }}
+
 outputs:
   result:
     description: "Success or failure of the dbt command"
+
 runs:
   using: "docker"
-  image: "Dockerfile-${VERSION}"
+  image: ghcr.io/dbt-labs/${DBT_ADAPTER}
   args:
     - ${{ inputs.dbt_command }}
     - ${{ inputs.dbt_project_folder }}
     - ${{ inputs.dbt_profile_dir }}
+
 branding:
-  icon: 'database'  
+  icon: 'database'
   color: 'purple'
