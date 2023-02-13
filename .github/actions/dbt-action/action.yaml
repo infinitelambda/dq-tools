@@ -22,7 +22,7 @@ outputs:
 
 runs:
   using: docker
-  image: Dockerfile-snowflake-1-3 # ghcr.io/dbt-labs/${DBT_ADAPTER}
+  image: Dockerfile
   args:
     - ${{ inputs.dbt_command }}
     - ${{ inputs.dbt_project_folder }}
