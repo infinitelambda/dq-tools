@@ -6,17 +6,20 @@ on:
 
 jobs:
   integration_tests:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dbt_adapter:
+          - ghcr.io/dbt-labs/dbt-snowflake:1.2.latest
+          - ghcr.io/dbt-labs/dbt-snowflake:1.3.latest
+    runs-on: ${{ matrix.dbt_adapter }}
     steps:
       - uses: actions/checkout@v3
 
       - name: Prepare environment
         run: chmod +x run_test.sh
 
-      - name: Run integration test (Snowflake + dbt 1.2.latest)
-        uses: ./.github/actions/dbt-action
-        with:
-          dbt_command: ./run_test.sh snowflake
+      - name: Run integration test
+        run: ./run_test.sh snowflake
         env:
           DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
           DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
