@@ -11,7 +11,7 @@ jobs:
       max-parallel: 1
       matrix:
         adapter: ["snowflake"] #,"bigquery"
-        version: ["1.2","1.3"]
+        version: ["1.0","1.1","1.2","1.3"]
     container:
       image: "ghcr.io/dbt-labs/dbt-${{ matrix.adapter }}:${{ matrix.version }}.latest"
     steps:
