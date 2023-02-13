@@ -4,6 +4,18 @@ on:
   pull_request:
     branches: [ "main" ]
 
+.prepare_snowflake_env: &prepare_snowflake_env
+  DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
+  DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
+  DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD: ${{ secrets.DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD }}
+  DBT_SNOWFLAKE_TEST_ROLE: ${{ secrets.DBT_SNOWFLAKE_TEST_ROLE }}
+  DBT_SNOWFLAKE_TEST_DATABASE: ${{ secrets.DBT_SNOWFLAKE_TEST_DATABASE }}
+  DBT_SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.DBT_SNOWFLAKE_TEST_WAREHOUSE }}
+
+.prepare_bigquery_env: &prepare_bigquery_env
+  DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH: ${{ secrets.DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH }}
+  DBT_BIGQUERY_TEST_DATABASE: ${{ secrets.DBT_BIGQUERY_TEST_DATABASE }}
+
 jobs:
   integration_tests:
     runs-on: ubuntu-latest
@@ -19,12 +31,8 @@ jobs:
       - name: Run integration test
         run: |
           chmod +x run_test.sh
-          cp -fr ./integration_tests/package-yml/packages_{{ matrix.version }}.yml ./integration_tests/packages.yml
+          cp -fr ./integration_tests/packages_{{ matrix.version }}.yml ./integration_tests/packages.yml
           ./run_test.sh ${{ matrix.adapter }}
         env:
-          DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
-          DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
-          DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD: ${{ secrets.DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD }}
-          DBT_SNOWFLAKE_TEST_ROLE: ${{ secrets.DBT_SNOWFLAKE_TEST_ROLE }}
-          DBT_SNOWFLAKE_TEST_DATABASE: ${{ secrets.DBT_SNOWFLAKE_TEST_DATABASE }}
-          DBT_SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.DBT_SNOWFLAKE_TEST_WAREHOUSE }}
+          *prepare_snowflake_env
+          # *prepare_bigquery_env
