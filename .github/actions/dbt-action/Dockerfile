@@ -1,5 +1,5 @@
-ARG DBT_ADAPTER=dbt-snowflake:1.2.latest
-FROM ghcr.io/dbt-labs/${DBT_ADAPTER}
+ARG DBT_ADAPTER=ENV_DBT_ADAPTER
+FROM ghcr.io/dbt-labs/$DBT_ADAPTER
 
 LABEL "maintainer"="Dat Nguyen <dat@infinitelambda.com>"
 LABEL "com.github.actions.name"="Integration tests"

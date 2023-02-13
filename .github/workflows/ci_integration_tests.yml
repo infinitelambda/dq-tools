@@ -18,6 +18,7 @@ jobs:
         with:
           dbt_command: ./run_test.sh snowflake
         env:
+          ENV_DBT_ADAPTER: dbt-snowflake:1.2.latest
           DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
           DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
           DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD: ${{ secrets.DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD }}

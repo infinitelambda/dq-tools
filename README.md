@@ -1,6 +1,9 @@
 # Data Quality Tools
 The purpose of the dq tool is to make simple storing test results and visualisation of these in a BI dashboard.
 
+[![ci_integration_tests](https://github.com/infinitelambda/dq-tools/actions/workflows/ci_integration_tests.yml/badge.svg?branch=main)](https://github.com/infinitelambda/dq-tools/actions/workflows/ci_integration_tests.yml)
+
+
 **Installation**:
 ```yml
 # packages.yml
