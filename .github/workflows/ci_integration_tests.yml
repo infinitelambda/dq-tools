@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set up credentials
-        if: ${{ contains(maxtrix.adapter, 'bigquery') }}
+        if: ${{ contains(matrix.adapter, 'bigquery') }}
         run: echo $DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON > ./bigquery-service-key.json
         env:
           DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON: ${{ secrets.DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH }}
