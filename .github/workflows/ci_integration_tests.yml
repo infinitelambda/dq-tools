@@ -19,7 +19,7 @@ jobs:
 
       - name: Set up credentials
         if: ${{ contains(matrix.adapter, 'bigquery') }}
-        run: echo $DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON > ./bigquery-service-key.json
+        run: echo $DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON > ./integration_tests/bigquery-service-key.json
         env:
           DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON: ${{ secrets.DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH }}
 
