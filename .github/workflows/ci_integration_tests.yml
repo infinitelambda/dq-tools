@@ -19,9 +19,7 @@ jobs:
       - name: Run integration test
         run: |
           chmod +x run_test.sh
-          echo "./integration_tests/packages_{{ matrix.version }}.yml"
-          ls
-          cp -fr ./integration_tests/packages_{{ matrix.version }}.yml ./integration_tests/packages.yml
+          cp -fr ./integration_tests/packages_${{ matrix.version }}.yml ./integration_tests/packages.yml
           ./run_test.sh ${{ matrix.adapter }}
         env:
           DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
