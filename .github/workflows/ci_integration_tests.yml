@@ -18,7 +18,6 @@ jobs:
         uses: ./.github/actions/dbt-action
         with:
           dbt_command: ./run_test.sh snowflake
-          dbt_adapter: ${{ matrix.dbt_adapter }}
         env:
           DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
           DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}

@@ -15,12 +15,6 @@ inputs:
     description: dbt profile folder. Defaults to .
     default: .
     required: false
-  dbt_adapter:
-    description: "dbt adapter with version"
-    required: true
-
-env:
-  DBT_ADAPTER: ${{ inputs.dbt_adapter }}
 
 outputs:
   result:
