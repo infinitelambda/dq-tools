@@ -5,12 +5,38 @@ on:
     branches: [ "main" ]
 
 jobs:
-  integration_tests:
+  integration_tests_snowflake:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
       matrix:
-        adapter: ["snowflake","bigquery"]
+        adapter: ["snowflake"]
+        version: ["1.0","1.1","1.2"] #,"1.3"
+    container:
+      image: "ghcr.io/dbt-labs/dbt-${{ matrix.adapter }}:${{ matrix.version }}.latest"
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run integration test
+        run: |
+          chmod +x run_test.sh
+          cp -fr ./integration_tests/packages_${{ matrix.version }}.yml ./integration_tests/packages.yml
+          ./run_test.sh ${{ matrix.adapter }}
+        env:
+          # SF
+          DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
+          DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
+          DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD: ${{ secrets.DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD }}
+          DBT_SNOWFLAKE_TEST_ROLE: ${{ secrets.DBT_SNOWFLAKE_TEST_ROLE }}
+          DBT_SNOWFLAKE_TEST_DATABASE: ${{ secrets.DBT_SNOWFLAKE_TEST_DATABASE }}
+          DBT_SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.DBT_SNOWFLAKE_TEST_WAREHOUSE }}
+          
+  integration_tests_bigquery:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        adapter: ["bigquery"]
         version: ["1.0","1.1","1.2"] #,"1.3"
     container:
       image: "ghcr.io/dbt-labs/dbt-${{ matrix.adapter }}:${{ matrix.version }}.latest"
@@ -29,13 +55,5 @@ jobs:
           cp -fr ./integration_tests/packages_${{ matrix.version }}.yml ./integration_tests/packages.yml
           ./run_test.sh ${{ matrix.adapter }}
         env:
-          # SF
-          DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
-          DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
-          DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD: ${{ secrets.DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD }}
-          DBT_SNOWFLAKE_TEST_ROLE: ${{ secrets.DBT_SNOWFLAKE_TEST_ROLE }}
-          DBT_SNOWFLAKE_TEST_DATABASE: ${{ secrets.DBT_SNOWFLAKE_TEST_DATABASE }}
-          DBT_SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.DBT_SNOWFLAKE_TEST_WAREHOUSE }}
-          # BQ
           DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH: "./bigquery-service-key.json"
           DBT_BIGQUERY_TEST_DATABASE: ${{ secrets.DBT_BIGQUERY_TEST_DATABASE }}
