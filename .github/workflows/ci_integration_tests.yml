@@ -43,7 +43,9 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set up credentials
-        run: echo $DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON | base64 -d > /opt/bigquery_service_key.json
+        run: |
+          echo $DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON | base64 -d > /opt/bigquery_service_key.json
+          cat /opt/bigquery_service_key.json
         env:
           DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON: ${{ secrets.DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_JSON }}
 
