@@ -51,6 +51,8 @@ jobs:
         run: |
           chmod +x run_test.sh
           cp -fr ./integration_tests/packages_${{ matrix.version }}.yml ./integration_tests/packages.yml
+          echo $DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH
+          cat $DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH
           ./run_test.sh ${{ matrix.adapter }}
         env:
           DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH: $GITHUB_WORKSPACE/bigquery-service-key.json
