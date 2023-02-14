@@ -21,7 +21,7 @@ dq_tools_integration_tests:
       method: service-account
       keyfile: "{{ env_var('DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH') }}"
       project: "{{ env_var('DBT_BIGQUERY_TEST_DATABASE') }}"
-      dataset: dq_tools_integra"{{ env_var('DBT_SCHEMA', 'dq_tools_integration_tests') }}"tion_tests
+      dataset: "{{ env_var('DBT_SCHEMA', 'dq_tools_integration_tests') }}"
       threads: 10
       # method: service-account-json # quick win / temp works
       # keyfile_json: # quick win / temp works
