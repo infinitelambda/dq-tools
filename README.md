@@ -1,15 +1,16 @@
 # Data Quality Tools
 The purpose of the dq tool is to make simple storing test results and visualisation of these in a BI dashboard.
 
+[![ci_integration_tests](https://github.com/infinitelambda/dq-tools/actions/workflows/ci_integration_tests.yml/badge.svg?branch=main)](https://github.com/infinitelambda/dq-tools/actions/workflows/ci_integration_tests.yml)
+
+
 **Installation**:
 ```yml
 # packages.yml
 packages:
-  - git: "git@gitlab.infinitelambda.com:infinitelambda/dq_tools.git"
-    revision: 1.1.1
+  - package: infinitelambda/dq_tools
+    version: [">=1.1.0", "<1.2.0"]
 ```
-Or check LastPass Shared folder named `IL-Internal (dbt package tokens)`.
-> _Contact this repo maintainer to get the access_
 
 ## 3 Functional layers
   - store dbt test results in a table
@@ -27,7 +28,7 @@ There are 6 main KPIs will be produced as below:
 - Validity
 - Uniqueness
 
-![DataQualityKPIs](./assets/images/DataQualityKPIs.png)
+![DataQualityKPIs](https://github.com/infinitelambda/dq-tools/assets/images/DataQualityKPIs.png)
 
 NOTE: It is possible that we can have custom KPI(s) as you go but it is NOT recommended as the existing modelling design will stick to the above 6 ones only.
 ```yaml
@@ -70,10 +71,10 @@ models:
 
 - STEP 3 - run the dbt test and check:
   Test results in the dq issue log table:
-  ![TestResultLog](./assets/images/TestResultLog.png)
+  ![TestResultLog](https://github.com/infinitelambda/dq-tools/assets/images/TestResultLog.png)
 
   Data quality KPIs in looker:
-  ![LookerDashboard](./assets/images/LookerDashboard.png)
+  ![LookerDashboard](https://github.com/infinitelambda/dq-tools/assets/images/LookerDashboard.png)
 
 
 ## Installation Instructions
@@ -172,7 +173,7 @@ models:
 ```
 
 ### Create table DQ_ISSUE_LOG in the database
-A macro `create_table_dq_issue_log` ([source](macros/create_table_dq_issue_log.sql)) will create the log table in your database (Snowflake) / project (BigQuery).
+A macro `create_table_dq_issue_log` ([source](https://github.com/infinitelambda/dq-tools/macros/create_table_dq_issue_log.sql)) will create the log table in your database (Snowflake) / project (BigQuery).
 You can run it as an operation:
 ```bash
 dbt run-operation create_dq_issue_log
@@ -185,7 +186,7 @@ on-run-start:
 
 ## Macros
 ### on-run-end Context
-#### store_test_results ([source](macros/artifacts/test/store_test_results.sql))
+#### store_test_results ([source](https://github.com/infinitelambda/dq-tools/macros/artifacts/test/store_test_results.sql))
 This macro is used to parse `results` variable at the `on-run-end` context to achieve the test result nodes, and save them to the `DQ_ISSUE_LOG` table.
 
 Usage:
@@ -195,7 +196,7 @@ on-run-end:
   - '{{ dq_tools.store_test_results(results) }}'
 ```
 
-Besides, there are couple of private macros are used as a part of it aiming to extract/calculate things under ([here](macros/artifacts/test/utilities/))
+Besides, there are couple of private macros are used as a part of it aiming to extract/calculate things under ([here](https://github.com/infinitelambda/dq-tools/macros/artifacts/test/utilities/))
 
 
 ### Generic Tests
@@ -204,7 +205,7 @@ The test result will be stored in a database table and further analysis can be b
 
 Detailed informations will be stored such as check_timestamp, table_name, column_name, value, severity, no_of records etc.
 
-#### not_null_where_db ([source](macros/generic_tests/test_not_null_where_db.sql))
+#### not_null_where_db ([source](https://github.com/infinitelambda/dq-tools/macros/generic_tests/test_not_null_where_db.sql))
 This test validates that there are no null values present in a column for a subset of rows by specifying a `where` clause.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -229,7 +230,7 @@ models:
 ```
 
 
-#### relationships_where_db ([source](macros/generic_tests/test_relationships_where_db.sql))
+#### relationships_where_db ([source](https://github.com/infinitelambda/dq-tools/macros/generic_tests/test_relationships_where_db.sql))
 This test validates the referential integrity between two relations (same as the core relationships schema test) with an added predicate to filter out some rows from the test. This is useful to exclude records such as test entities, rows created in the last X minutes/hours to account for temporary gaps due to ETL limitations, etc.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -256,7 +257,7 @@ models:
 
 ```
 
-#### unique_where_db ([source](macros/generic_tests/test_unique_where_db.sql))
+#### unique_where_db ([source](https://github.com/infinitelambda/dq-tools/macros/generic_tests/test_unique_where_db.sql))
 This test validates that there are no duplicate values present in a field for a subset of rows by specifying a `where` clause.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -280,7 +281,7 @@ models:
               kpi_category: Uniqueness
 ```
 
-#### recency_db ([source](macros/generic_tests/test_recency_db.sql))
+#### recency_db ([source](https://github.com/infinitelambda/dq-tools/macros/generic_tests/test_recency_db.sql))
 This schema test asserts that there is data in the referenced model at least as recent as the defined interval prior to the current timestamp.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -304,7 +305,7 @@ models:
           kpi_category: Timeliness
 ```
 
-#### expression_is_true_db ([source](macros/generic_tests/test_expression_is_true_db.sql))
+#### expression_is_true_db ([source](https://github.com/infinitelambda/dq-tools/macros/generic_tests/test_expression_is_true_db.sql))
 This schema test asserts that a valid sql expression is true for all records. This is useful when checking integrity across columns, for example, that a total is equal to the sum of its parts, or that at least one column is true.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -326,7 +327,7 @@ models:
 
 ```
 
-#### accepted_values_where_db ([source](macros/generic_tests/test_accepted_values_where_db.sql))
+#### accepted_values_where_db ([source](https://github.com/infinitelambda/dq-tools/macros/generic_tests/test_accepted_values_where_db.sql))
 This schema test asserts that all of the column values are within the list of accepted values provided. As with other schema tests, optional parameter `where` can be specified for testing just a subset of the column.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -348,7 +349,7 @@ models:
           kpi_category: Accuracy
 ```
 
-#### equal_rowcount_where_db ([source](macros/generic_tests/test_equal_rowcount_where_db.sql))
+#### equal_rowcount_where_db ([source](https://github.com/infinitelambda/dq-tools/macros/generic_tests/test_equal_rowcount_where_db.sql))
 This schema test asserts that count of rows in two relations is the same. Optional parameters `where` and `compare_model_where` can be specified for testing just a subset of base and compared relations respectively.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -371,7 +372,7 @@ models:
           severity_level: warn
 ```
 
-#### equality_where_db ([source](macros/generic_tests/test_equality_where_db.sql))
+#### equality_where_db ([source](https://github.com/infinitelambda/dq-tools/macros/generic_tests/test_equality_where_db.sql))
 This schema test asserts that two relations (or subset of their columns) are equal. Relations as a whole are considered if the parameter `compare_columns` is not provided.
 Optional parameters `where` and `compare_model_where` can be specified for testing just a subset of base and compared relations respectively.
 
@@ -399,4 +400,4 @@ models:
 ```
 
 ## Contribution Guide
-See integration_tests/[README.md](./integration_tests/README.md)
+See integration_tests/[README.md](https://github.com/infinitelambda/dq-tools/integration_tests/README.md)

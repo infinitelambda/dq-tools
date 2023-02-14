@@ -13,7 +13,7 @@ dq_tools_integration_tests:
       role: "{{ env_var('DBT_SNOWFLAKE_TEST_ROLE') }}"
       database: "{{ env_var('DBT_SNOWFLAKE_TEST_DATABASE') }}"
       warehouse: "{{ env_var('DBT_SNOWFLAKE_TEST_WAREHOUSE') }}"
-      schema: dq_tools_integration_tests
+      schema: "{{ env_var('DBT_SCHEMA', 'dq_tools_integration_tests') }}"
       threads: 10
 
     bigquery:
@@ -21,7 +21,7 @@ dq_tools_integration_tests:
       method: service-account
       keyfile: "{{ env_var('DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH') }}"
       project: "{{ env_var('DBT_BIGQUERY_TEST_DATABASE') }}"
-      dataset: dq_tools_integration_tests
+      dataset: "{{ env_var('DBT_SCHEMA', 'dq_tools_integration_tests') }}"
       threads: 10
       # method: service-account-json # quick win / temp works
       # keyfile_json: # quick win / temp works
@@ -43,7 +43,7 @@ dq_tools_integration_tests:
       pass: "{{ env_var('DBT_ENV_SECRET_POSTGRES_TEST_PASS') }}"
       port: "{{ env_var('DBT_POSTGRES_TEST_PORT') | as_number }}"
       dbname: "{{ env_var('DBT_POSTGRES_TEST_DBNAME') }}"
-      schema: dq_tools_integration_tests
+      schema: "{{ env_var('DBT_SCHEMA', 'dq_tools_integration_tests') }}"
       threads: 5
 
     redshift:
@@ -53,5 +53,5 @@ dq_tools_integration_tests:
       pass: "{{ env_var('DBT_ENV_SECRET_REDSHIFT_TEST_PASS') }}"
       dbname: "{{ env_var('DBT_REDSHIFT_TEST_DBNAME') }}"
       port: "{{ env_var('DBT_REDSHIFT_TEST_PORT') | as_number }}"
-      schema: dq_tools_integration_tests
+      schema: "{{ env_var('DBT_SCHEMA', 'dq_tools_integration_tests') }}"
       threads: 5

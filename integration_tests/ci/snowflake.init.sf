@@ -8,7 +8,6 @@ use role securityadmin;
 create or replace role role_transform_{{ your_database }} with comment = 'Role for dq-tools integration tests';
 grant usage on warehouse {{ your_warehouse }}  to role role_transform_{{ your_database }};
 grant usage on database {{ your_database }} to role role_transform_{{ your_database }};
-grant all privileges on database {{ your_database }} to role role_transform_{{ your_database }};
 grant all privileges on all schemas in database {{ your_database }} to role role_transform_{{ your_database }};
 grant all privileges on future schemas in database {{ your_database }} to role role_transform_{{ your_database }};
 grant all privileges on all tables in database {{ your_database }} to role role_transform_{{ your_database }};
