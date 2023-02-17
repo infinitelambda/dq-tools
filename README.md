@@ -3,13 +3,17 @@ The purpose of the dq tool is to make simple storing test results and visualisat
 
 [![ci_integration_tests](https://github.com/infinitelambda/dq-tools/actions/workflows/ci_integration_tests.yml/badge.svg)](https://github.com/infinitelambda/dq-tools/actions/workflows/ci_integration_tests.yml)
 
+**Supported DWHs**:
+
+![dwh](https://img.shields.io/badge/DWH-Snowflake-9cf?logo=snowflake&logoColor=white)
+![dwh](https://img.shields.io/badge/DWH-BigQuery-green?logo=google&logoColor=white)
 
 **Installation**:
 ```yml
 # packages.yml
 packages:
   - package: infinitelambda/dq_tools
-    version: [">=1.1.0", "<1.2.0"]
+    version: [">=1.2.0", "<1.3.0"]
 ```
 
 ## 3 Functional layers
@@ -170,7 +174,7 @@ Enable it in `dbt_project.yml` file:
 models:
   dq_tools:
     +enabled: true
-    
+
 metrics:
   dq_tools:
     +enabled: true
