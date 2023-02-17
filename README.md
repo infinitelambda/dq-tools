@@ -170,6 +170,10 @@ Enable it in `dbt_project.yml` file:
 models:
   dq_tools:
     +enabled: true
+    
+metrics:
+  dq_tools:
+    +enabled: true
 ```
 
 ### Create table DQ_ISSUE_LOG in the database

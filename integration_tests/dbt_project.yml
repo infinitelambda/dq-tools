@@ -49,3 +49,7 @@ models:
   dq_tools:
     03_mart:
       +enabled: true
+
+metrics:
+  dq_tools:
+    +enabled: true
