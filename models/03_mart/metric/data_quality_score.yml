@@ -7,8 +7,8 @@ metrics:
     model: ref('bi_dq_metrics')
     description: Data Quality Score based on the Testing Result which is calculaed by looking at Row Passed/Row Processed.
 
-    type: average
-    sql: (rows_processed - rows_failed) * 1.00 / (rows_processed)
+    calculation_method: average
+    expression: (rows_processed - rows_failed) * 1.00 / (rows_processed)
 
     timestamp: run_time
     time_grains: [day, week, month, quarter, year]
