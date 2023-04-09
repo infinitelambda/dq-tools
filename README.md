@@ -3,6 +3,10 @@
 
 The purpose of the dq tool is to make simple storing test results and visualisation of these in a BI dashboard.
 
+[![dq-tools](https://img.shields.io/badge/official--documentation--site-visit-blueviolet)](https://infinitelambda.github.io/dq-tools/)
+
+
+[![dbt-hub](https://img.shields.io/badge/dbt-hub-FF694B?logo=dbt&logoColor=FF694B)](https://hub.getdbt.com/infinitelambda/dq_tools)
 [![ci-pr](https://github.com/infinitelambda/dq-tools/actions/workflows/ci-pr.yml/badge.svg)](https://github.com/infinitelambda/dq-tools/actions/workflows/ci-pr.yml)
 
 **Supported DWHs**:
