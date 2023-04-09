@@ -1,4 +1,4 @@
-name: ci_integration_tests
+name: testing on pull request
 
 on:
   pull_request:

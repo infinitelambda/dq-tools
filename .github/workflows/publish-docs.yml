@@ -1,0 +1,68 @@
+name: deploy documentation site
+
+on:
+  workflow_dispatch: # manual
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        adapter: ["snowflake"]
+        version: ["1.3"]
+    container:
+      image: "ghcr.io/dbt-labs/dbt-${{ matrix.adapter }}:${{ matrix.version }}.latest"
+
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v2
+        with:
+          key: ${{ github.ref }}
+          path: .cache
+
+      - name: install dependencies
+        run: |
+          pip install mkdocs mkdocs-material mkdocs-minify-plugin mkdocs-simple-hooks
+
+      - name: build dbt docs site
+        run: |
+          mkdir -p ~/.dbt
+          cp ci/sample.profiles.yml ~/.dbt/profiles.yml
+          dbt deps
+          dbt docs generate
+        working-directory: integration_tests
+        env:
+          DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
+          DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
+          DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD: ${{ secrets.DBT_ENV_SECRET_SNOWFLAKE_TEST_PASSWORD }}
+          DBT_SNOWFLAKE_TEST_ROLE: ${{ secrets.DBT_SNOWFLAKE_TEST_ROLE }}
+          DBT_SNOWFLAKE_TEST_DATABASE: ${{ secrets.DBT_SNOWFLAKE_TEST_DATABASE }}
+          DBT_SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.DBT_SNOWFLAKE_TEST_WAREHOUSE }}
+          DBT_SCHEMA: DOCS
+
+      - name: build site
+        run: |
+          cp -f README.md docs/index.md
+          # cp -f LICENSE docs/license.md
+          cp -f CONTRIBUTING.md docs/nav/development/contributing-guide.md
+          mkdocs build --clean
+
+      - name: setup pages
+        uses: actions/configure-pages@v2
+
+      - name: upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'site'
+
+      - name: deploy to gitHub pages
+        id: deployment
+        uses: actions/deploy-pages@v1

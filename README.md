@@ -1,7 +1,9 @@
 # Data Quality Tools
+<img align="right" width="155.4" height="71.1" src="https://raw.githubusercontent.com/infintelambda/dq-tools/main/docs/assets/img/logo.png">
+
 The purpose of the dq tool is to make simple storing test results and visualisation of these in a BI dashboard.
 
-[![ci_integration_tests](https://github.com/infinitelambda/dq-tools/actions/workflows/ci_integration_tests.yml/badge.svg)](https://github.com/infinitelambda/dq-tools/actions/workflows/ci_integration_tests.yml)
+[![ci-pr](https://github.com/infinitelambda/dq-tools/actions/workflows/ci-pr.yml/badge.svg)](https://github.com/infinitelambda/dq-tools/actions/workflows/ci-pr.yml)
 
 **Supported DWHs**:
 
@@ -9,12 +11,32 @@ The purpose of the dq tool is to make simple storing test results and visualisat
 ![dwh](https://img.shields.io/badge/DWH-BigQuery-green?logo=google&logoColor=white)
 
 **Installation**:
-```yml
-# packages.yml
-packages:
-  - package: infinitelambda/dq_tools
-    version: [">=1.2.0", "<1.3.0"]
-```
+- Add to `packages.yml` file:
+  ```yml
+  packages:
+    - package: infinitelambda/dq_tools
+      version: [">=1.2.0", "<1.3.0"]
+  ```
+- Configure schema in `dbt_project.yml` file:
+  ```yml
+  vars:
+    # to create db table in the schema named as AUDIT
+    dbt_dq_tool_schema: AUDIT
+  ```
+
+- Add on-run-start hook:
+  ```yml
+  on-run-start:
+    - '{{ dq_tools.create_table_dq_issue_log() }}'
+  ```
+
+- Add on-run-end hook:
+  ```yml
+  on-run-end:
+    - '{{ dq_tools.store_test_results(results) }}'
+  ```
+
+See [Installation Instructions](#installation-instructions) in more details.
 
 ## 3 Functional layers
   - store dbt test results in a table

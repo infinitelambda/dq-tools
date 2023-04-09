@@ -10,3 +10,4 @@ env/
 test.env
 __pycache__
 /integration_tests/*/overview.md # used in `run_publish_docs.sh` ci process
+site/
