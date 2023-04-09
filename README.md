@@ -3,6 +3,10 @@
 
 The purpose of the dq tool is to make simple storing test results and visualisation of these in a BI dashboard.
 
+[![dq-tools](https://img.shields.io/badge/official--documentation--site-visit-blueviolet)](https://infinitelambda.github.io/dq-tools/)
+
+
+[![dbt-hub](https://img.shields.io/badge/dbt-hub-FF694B?logo=dbt&logoColor=FF694B)](https://hub.getdbt.com/infinitelambda/dq_tools)
 [![ci-pr](https://github.com/infinitelambda/dq-tools/actions/workflows/ci-pr.yml/badge.svg)](https://github.com/infinitelambda/dq-tools/actions/workflows/ci-pr.yml)
 
 **Supported DWHs**:
@@ -429,5 +433,5 @@ models:
           severity_level: warn
 ```
 
-## Contribution Guide
-See integration_tests/[README.md](https://github.com/infinitelambda/dq-tools/blob/main/integration_tests/README.md)
+## Contributing
+If you've ever wanted to contribute to this tool, and a great cause, feel free to create your [Pull Request](https://github.com/infinitelambda/dq-tools/pulls), or submit a new issue via [Bug Report](https://github.com/infinitelambda/dq-tools/issues/new?assignees=&labels=&template=bug_report.md&title=[BUG]%20Describe%20it%20shortly) / [Feature Request](https://github.com/infinitelambda/dq-tools/issues/new?assignees=&labels=&template=feature_request.md&title=[FEATURE]%20Describe%20it%20shortly) 💖
