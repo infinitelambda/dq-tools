@@ -1,5 +1,5 @@
 # Data Quality Tools
-<img align="right" width="155.4" height="71.1" src="https://raw.githubusercontent.com/infintelambda/dq-tools/main/docs/assets/img/logo.png">
+<img align="right" width="155.4" height="71.1" src="https://raw.githubusercontent.com/infinitelambda/dq-tools/main/docs/assets/img/logo.png">
 
 The purpose of the dq tool is to make simple storing test results and visualisation of these in a BI dashboard.
 
