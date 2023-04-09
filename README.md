@@ -429,5 +429,5 @@ models:
           severity_level: warn
 ```
 
-## Contribution Guide
-See integration_tests/[README.md](https://github.com/infinitelambda/dq-tools/blob/main/integration_tests/README.md)
+## Contributing
+If you've ever wanted to contribute to this tool, and a great cause, feel free to create your [Pull Request](https://github.com/infinitelambda/dq-tools/pulls), or submit a new issue via [Bug Report](https://github.com/infinitelambda/dq-tools/issues/new?assignees=&labels=&template=bug_report.md&title=[BUG]%20Describe%20it%20shortly) / [Feature Request](https://github.com/infinitelambda/dq-tools/issues/new?assignees=&labels=&template=feature_request.md&title=[FEATURE]%20Describe%20it%20shortly) 💖
