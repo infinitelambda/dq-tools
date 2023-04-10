@@ -436,6 +436,8 @@ models:
 ```
 
 ## Contributing
-If you've ever wanted to contribute to this tool, and a great cause, feel free to create your [Pull Request](https://github.com/infinitelambda/dq-tools/pulls), or submit a new issue via [Bug Report](https://github.com/infinitelambda/dq-tools/issues/new?assignees=&labels=&template=bug_report.md&title=[BUG]%20Describe%20it%20shortly) / [Feature Request](https://github.com/infinitelambda/dq-tools/issues/new?assignees=&labels=&template=feature_request.md&title=[FEATURE]%20Describe%20it%20shortly) 💖
 
-For more details, please help to check [Contributing](https://infinitelambda.github.io/dq-tools/nav/development/contributing-guide.html) documentation!
+[![contributions welcome](https://img.shields.io/badge/contribution--guideline-visit-brightgreen.svg?style=for-the-badge)](https://infinitelambda.github.io/dq-tools/nav/development/contributing-guide.html)
+
+
+If you've ever wanted to contribute to this tool, and a great cause, feel free to create your [Pull Request](https://github.com/infinitelambda/dq-tools/pulls), or submit a new issue via [Bug Report](https://github.com/infinitelambda/dq-tools/issues/new?assignees=&labels=&template=bug_report.md&title=[BUG]%20Describe%20it%20shortly) / [Feature Request](https://github.com/infinitelambda/dq-tools/issues/new?assignees=&labels=&template=feature_request.md&title=[FEATURE]%20Describe%20it%20shortly) 💖
