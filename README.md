@@ -15,6 +15,7 @@ The purpose of the dq tool is to make simple storing test results and visualisat
 ![dwh](https://img.shields.io/badge/DWH-BigQuery-green?logo=google&logoColor=white)
 
 **Installation**:
+
 - Add to `packages.yml` file:
   ```yml
   packages:
@@ -31,7 +32,7 @@ The purpose of the dq tool is to make simple storing test results and visualisat
 - Add on-run-start hook:
   ```yml
   on-run-start:
-    - '{{ dq_tools.create_table_dq_issue_log() }}'
+    - '{{ dq_tools.create_dq_issue_log() }}'
   ```
 
 - Add on-run-end hook:
@@ -51,6 +52,7 @@ The idea behind the layer is that each layer can be changed, extended or replace
 
 ## Data Quality KPIs
 There are 6 main KPIs will be produced as below:
+
 - Accuracy
 - Consistency
 - Completeness
@@ -58,7 +60,7 @@ There are 6 main KPIs will be produced as below:
 - Validity
 - Uniqueness
 
-![DataQualityKPIs](https://github.com/infinitelambda/dq-tools/blob/main/assets/images/DataQualityKPIs.png)
+![DataQualityKPIs](https://raw.githubusercontent.com/infinitelambda/dq-tools/main/assets/images/DataQualityKPIs.png)
 
 NOTE: It is possible that we can have custom KPI(s) as you go but it is NOT recommended as the existing modelling design will stick to the above 6 ones only.
 ```yaml
@@ -101,10 +103,10 @@ models:
 
 - STEP 3 - run the dbt test and check:
   Test results in the dq issue log table:
-  ![TestResultLog](https://github.com/infinitelambda/dq-tools/blob/main/assets/images/TestResultLog.png)
+  ![TestResultLog](https://raw.githubusercontent.com/infinitelambda/dq-tools/main/assets/images/TestResultLog.png)
 
   Data quality KPIs in looker:
-  ![LookerDashboard](https://github.com/infinitelambda/dq-tools/blob/main/assets/images/LookerDashboard.png)
+  ![LookerDashboard](https://raw.githubusercontent.com/infinitelambda/dq-tools/main/assets/images/LookerDashboard.png)
 
 
 ## Installation Instructions
@@ -435,3 +437,5 @@ models:
 
 ## Contributing
 If you've ever wanted to contribute to this tool, and a great cause, feel free to create your [Pull Request](https://github.com/infinitelambda/dq-tools/pulls), or submit a new issue via [Bug Report](https://github.com/infinitelambda/dq-tools/issues/new?assignees=&labels=&template=bug_report.md&title=[BUG]%20Describe%20it%20shortly) / [Feature Request](https://github.com/infinitelambda/dq-tools/issues/new?assignees=&labels=&template=feature_request.md&title=[FEATURE]%20Describe%20it%20shortly) 💖
+
+For more details, please help to check [Contributing](https://infinitelambda.github.io/dq-tools/nav/development/contributing-guide.html) documentation!

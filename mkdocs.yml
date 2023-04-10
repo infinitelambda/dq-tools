@@ -1,4 +1,4 @@
-site_name: Data Quality Tool
+site_name: Data Quality Tools
 site_url: https://infinitelambda.github.io/dq-tools/
 site_author: Infinite Lambda
 site_description: Offical documentation of `dq-tools` dbt package
@@ -64,8 +64,8 @@ plugins:
         on_post_build: "docs.hooks:copy_dbt_docs"
 
 nav:
-  - ✨dq-tools: index.md
-  - 👉dbt docs: dbt-docs/index.html # managed by hooks.copy_dbt_docs
+  - ✨ dq-tools: index.md
+  - 👉 dbt docs: dbt-docs/index.html # managed by hooks.copy_dbt_docs
   - Development:
     - nav/development/contributing-guide.md
     - nav/development/release-notes.md
