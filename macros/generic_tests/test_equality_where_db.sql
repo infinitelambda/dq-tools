@@ -31,7 +31,7 @@
 
     {{ dq_tools.transaction_begin() }}
 
-    insert into {{ target.database }}.{{var('dbt_dq_tool_schema', target.schema)}}.dq_issue_log (check_timestamp, table_name, dq_issue_type, ref_table, invocation_id, dq_model, severity, kpi_category, no_of_records, no_of_records_failed)
+    insert into {{ var('dbt_dq_tool_database', target.database) }}.{{var('dbt_dq_tool_schema', target.schema)}}.dq_issue_log (check_timestamp, table_name, dq_issue_type, ref_table, invocation_id, dq_model, severity, kpi_category, no_of_records, no_of_records_failed)
       (
         with left_table as (
 

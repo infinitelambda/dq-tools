@@ -9,8 +9,8 @@
 
 {%- if target.type | lower == 'snowflake'  %}
   {%- set query %}
-    create schema if not exists {{ target.database }}.{{ var('dbt_dq_tool_schema') }};
-    create transient table if not exists {{ target.database }}.{{ var('dbt_dq_tool_schema') }}.dq_issue_log
+    create schema if not exists {{ var('dbt_dq_tool_database', target.database) }}.{{ var('dbt_dq_tool_schema') }};
+    create transient table if not exists {{ var('dbt_dq_tool_database', target.database) }}.{{ var('dbt_dq_tool_schema') }}.dq_issue_log
     (
       CHECK_TIMESTAMP TIMESTAMP_NTZ(9),
       TABLE_NAME VARCHAR(16777216),
@@ -31,7 +31,7 @@
 
 {%- elif target.type | lower == 'bigquery' %}
   {%- set query %}
-    create table if not exists {{ target.project }}.{{ var('dbt_dq_tool_schema') }}.dq_issue_log
+    create table if not exists {{ var('dbt_dq_tool_database', target.database) }}.{{ var('dbt_dq_tool_schema') }}.dq_issue_log
     (
       CHECK_TIMESTAMP TIMESTAMP,
       TABLE_NAME STRING,

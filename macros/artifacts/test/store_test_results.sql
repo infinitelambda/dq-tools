@@ -21,7 +21,7 @@
     {{ return('') -}}
   {% endif -%}
 
-  {%- set log_tbl %} {{ target.database }}.{{ var('dbt_dq_tool_schema') }}.dq_issue_log {% endset -%}
+  {%- set log_tbl %} {{ var('dbt_dq_tool_database', target.database) }}.{{ var('dbt_dq_tool_schema') }}.dq_issue_log {% endset -%}
 
   {{ log("Centralizing " ~ test_results|length ~ " test results in " + log_tbl, true) if execute -}}
   {{- dq_tools.create_dq_issue_log() -}}
