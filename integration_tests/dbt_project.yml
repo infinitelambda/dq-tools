@@ -40,7 +40,7 @@ on-run-end:
 
 vars:
   dbt_dq_tool_schema: dq_raw
-  dbt_dq_tool_database: "{{ 'dq_tools' if target.type == 'snowflake' else 'bichapter' }}"
+  # dbt_dq_tool_database: dq_tools
 
 seeds:
   dq_tools_integration_tests:
