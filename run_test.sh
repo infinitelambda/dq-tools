@@ -10,6 +10,7 @@ dbt --version
 cd integration_tests
 cp ci/sample.profiles.yml profiles.yml
 export DBT_PROFILES_DIR=.
+export DBT_SCHEMA=${DBT_SCHEMA//./_}
 
 # Show the location of the profiles directory and test the connection
 dbt debug --target $1

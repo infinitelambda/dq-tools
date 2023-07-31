@@ -59,4 +59,4 @@ jobs:
         env:
           DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH: /opt/bigquery_service_key.json
           DBT_BIGQUERY_TEST_DATABASE: ${{ secrets.DBT_BIGQUERY_TEST_DATABASE }}
-          DBT_SCHEMA: PRCI_${{ matrix.version }}_${{ github.sha }}
+          DBT_SCHEMA: PRCI_DQTOOLS_${{ matrix.version }}_${{ github.sha }}
