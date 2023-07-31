@@ -1,0 +1,69 @@
+version: 2
+
+sources:
+  - name: dq_tools_test
+    database: "{{ var('dbt_dq_tool_database') }}"
+    schema: "{{ var('dbt_dq_tool_schema') }}"
+    tables:
+      - name: dq_issue_log
+        tests:
+          - dq_tools.expression_is_true_db:
+              where: coalesce(ref_column,'') != ''
+              expression: coalesce(ref_table,'') != ''
+        columns:
+          - name: check_timestamp
+            tests:
+              - dq_tools.not_null_where_db
+          - name: table_name
+            tests:
+              - dq_tools.not_null_where_db
+          - name: dq_issue_type
+            tests:
+              - dq_tools.not_null_where_db
+          - name: invocation_id
+            tests:
+              - dq_tools.not_null_where_db
+          - name: dq_model
+            tests:
+              - dq_tools.not_null_where_db
+              - dq_tools.expression_is_true_db:  # singular test error should not exists
+                  expression: dq_model != 'assert_intentional_error'
+              - dq_tools.expression_is_true_db: # generic test error should not exists
+                  where: table_name like '%.test_failures' and coalesce(column_name,'') = ''
+                  expression: dq_model not like 'dq_tools_expression_is_true_db_test_failures_1_0%'
+          - name: severity
+            tests:
+              - dq_tools.not_null_where_db
+              - dq_tools.accepted_values_where_db:
+                  values: [
+                    'warn',
+                    'error'
+                  ]
+          - name: kpi_category
+            tests:
+              - dq_tools.not_null_where_db
+              - dq_tools.accepted_values_where_db:
+                  values: [
+                    'Other',
+                    'Uniqueness',
+                    'Consistency',
+                    'Validity',
+                    'Timeliness',
+                    'Completeness',
+                    'Accuracy',
+                  ]
+          - name: no_of_records
+            tests:
+              - dq_tools.not_null_where_db:
+                  where: coalesce(table_name,'') != ''
+              - dq_tools.expression_is_true_db:
+                  where: coalesce(ref_table,'') != ''
+                  expression: no_of_records >= 0
+          - name: no_of_records_failed
+            tests:
+              - dq_tools.not_null_where_db
+              - dq_tools.expression_is_true_db:
+                  expression: no_of_records_failed >= 0
+              - dq_tools.expression_is_true_db:
+                  where: lower(dq_model) like '%failure%'
+                  expression: no_of_records_failed > 0
