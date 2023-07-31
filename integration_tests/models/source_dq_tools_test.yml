@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: dq_tools_test
-    database: "{{ var('dbt_dq_tool_database') }}"
+    database: "{{ var('dbt_dq_tool_database', target.database) }}"
     schema: "{{ var('dbt_dq_tool_schema') }}"
     tables:
       - name: dq_issue_log
