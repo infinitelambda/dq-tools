@@ -32,7 +32,7 @@ on-run-start:
       {{ "drop schema if exists " ~ target.schema }};
       {{ "create schema " ~ target.schema }};
       {{ "drop schema if exists " ~ var("dbt_dq_tool_database", target.database) ~ "." ~ var("dbt_dq_tool_schema", target.schema) }};
-      {{ "create schema  ~ var("dbt_dq_tool_database", target.database) ~ "."  ~ var("dbt_dq_tool_schema", target.schema) }};
+      {{ "create schema "  ~ var("dbt_dq_tool_database", target.database) ~ "."  ~ var("dbt_dq_tool_schema", target.schema) }};
     {% endif %}
 
 on-run-end:
