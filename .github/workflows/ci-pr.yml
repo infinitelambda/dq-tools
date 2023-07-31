@@ -30,7 +30,7 @@ jobs:
           DBT_SNOWFLAKE_TEST_ROLE: ${{ secrets.DBT_SNOWFLAKE_TEST_ROLE }}
           DBT_SNOWFLAKE_TEST_DATABASE: ${{ secrets.DBT_SNOWFLAKE_TEST_DATABASE }}
           DBT_SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.DBT_SNOWFLAKE_TEST_WAREHOUSE }}
-          DBT_SCHEMA: PRCI_${{ github.sha }}
+          DBT_SCHEMA: PRCI_${{ matrix.version }}_${{ github.sha }}
           
   poseidon:
     runs-on: ubuntu-latest
@@ -59,4 +59,4 @@ jobs:
         env:
           DBT_ENV_SECRET_BIGQUERY_SERVICE_KEY_PATH: /opt/bigquery_service_key.json
           DBT_BIGQUERY_TEST_DATABASE: ${{ secrets.DBT_BIGQUERY_TEST_DATABASE }}
-          DBT_SCHEMA: PRCI_${{ github.sha }}
+          DBT_SCHEMA: PRCI_${{ matrix.version }}_${{ github.sha }}
