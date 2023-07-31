@@ -110,43 +110,73 @@ models:
 
 
 ## Installation Instructions
-Add this repository as a [gitlab package](https://docs.getdbt.com/docs/building-a-dbt-project/package-management#git-packages) or make a copy as a [local package](https://docs.getdbt.com/docs/building-a-dbt-project/package-management#local-packages) in your dbt `packages.yml` file.
 
-### Configure your DQ schema with `dbt_dq_tool_schema` variable:
+Go to [dbt Hub](https://hub.getdbt.com/infinitelambda/dq_tools/latest/) and register the package into your dbt `packages.yml` file:
 
-Value for variable `dbt_dq_tool_schema: your_schema_name` optionally needs to be added to dbt_profile.yml file in your project. Its default value is `target.schema` in `profiles.yml` file
+  ```yml
+  packages:
+    - package: infinitelambda/dq_tools
+      version: [">=1.2.0", "<1.3.0"]
+  ```
+
+### 1. Create table DQ_ISSUE_LOG in the database
+
+A macro `create_table_dq_issue_log` ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/create_table_dq_issue_log.sql)) will create the log table in your database (Snowflake) / project (BigQuery).
+
+Add `on-run-start` hook (required dbt >= 1.0.0):
+```yml
+on-run-start:
+  - '{{ dq_tools.create_table_dq_issue_log() }}'
+```
+
+<details>
+  <summary>For dq-tools legacy version < 1.0, you can run it as an operation</summary>
+
+  ```bash
+  dbt run-operation create_dq_issue_log
+  ```
+</details>
+
+### 2. Configure your DQ schema with `dbt_dq_tool_schema` variable:
+
+Value for variable `dbt_dq_tool_schema: your_schema_name` needs to be added to dbt_profile.yml file in your project. And then, optionally add `dbt_dq_tool_database: your_database_name` which default value is `target.schema` in `profiles.yml` file
 
 e.g.
 ```yaml
 vars:
   # to create db table in the schema named as AUDIT
   dbt_dq_tool_schema: AUDIT
+  # (optional) to create db table in the database named as DQ_TOOLS
+  dbt_dq_tool_database: DQ_TOOLS
 ```
 
-### Decide to save test result to Data Warehouse table:
+### 3. Decide to save test result to Data Warehouse table:
+
 #### With `dq_tools_enable_store_test_results` variable:
 
-  NOTE: This variable only works when `dbt_test_results_to_db = False` (for backward compatibility purpose) with the newest version of dq-tools.
+  NOTE: This variable only works when `dbt_test_results_to_db = False` (default, for backward compatibility purpose) with the newest version of dq-tools.
 
   Add the `on-run-end` hook to you project:
   ```yaml
   on-run-end:
     - '{{ dq_tools.store_test_results(results) }}'
   ```
-  ...then decide to save the test result by either:
-  - enable this variable in dbt_project.yml
-    e.g.
-    ````yaml
-    vars:
-      # to store the test results in db table
-      dq_tools_enable_store_test_results: True
-    ````
-  - enable this variable in dbt command
-    e.g.
-    ````bash
-    dbt test --vars '{dq_tools_enable_store_test_results: True}'
-    dbt build --vars '{dq_tools_enable_store_test_results: True}'
-    ````
+  
+  Then, decide to save the test result in dbt command:
+
+  ```bash
+  dbt test --vars '{dq_tools_enable_store_test_results: True}'
+  dbt build --vars '{dq_tools_enable_store_test_results: True}'
+  ```
+
+  <details>
+    <summary>Alternatively, we can also enable this variable in <code>dbt_project.yml`</code>:</summary>
+  ```yml
+  vars:
+    # to store the test results in db table
+    dq_tools_enable_store_test_results: True
+  ```
+  </details>
 
   Pros & Cons:
   - Pros:
@@ -158,7 +188,10 @@ vars:
     - Singular Test: no_of_records cannot be captured
 
 
-#### With `dbt_test_results_to_db` variable:
+<details>
+  <summary>For dq_tools version < 1.0 (with legacy variable) </summary>
+
+#### Enabling test result storing by `dbt_test_results_to_db` variable:
 
   Optionally, add `dbt_test_results_to_db: False` as a variable to your `dbt_profile.yml` file. Its default value is `False` meaning NOT to save test result.
 
@@ -194,8 +227,9 @@ vars:
     - Requires to create new test function(s) in advanced case(s) to adapt with current implementation of test result capturing approach
     - Singular test functions is not documented (?)
 
+</details>
 
-### Decide to enable building the downstream models of the log table:
+### 4. Decide to enable building the downstream models of the log table:
 Enable it in `dbt_project.yml` file:
 ```yml
 # dbt_project.yml
@@ -208,25 +242,17 @@ metrics:
     +enabled: true
 ```
 
-### Create table DQ_ISSUE_LOG in the database
-A macro `create_table_dq_issue_log` ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/create_table_dq_issue_log.sql)) will create the log table in your database (Snowflake) / project (BigQuery).
-You can run it as an operation:
-```bash
-dbt run-operation create_dq_issue_log
-```
-or as `on-run-start` hook (required dbt >= 1.0.0):
-```yaml
-on-run-start:
-  - '{{ dq_tools.create_table_dq_issue_log() }}'
-```
-
 ## Macros
+
 ### on-run-end Context
+
 #### store_test_results ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/artifacts/test/store_test_results.sql))
+
 This macro is used to parse `results` variable at the `on-run-end` context to achieve the test result nodes, and save them to the `DQ_ISSUE_LOG` table.
 
 Usage:
-```yaml
+
+```yml
 # dbt_project.yml
 on-run-end:
   - '{{ dq_tools.store_test_results(results) }}'
@@ -236,12 +262,14 @@ Besides, there are couple of private macros are used as a part of it aiming to e
 
 
 ### Generic Tests
+
 These tests are based on dbt_utils test.
 The test result will be stored in a database table and further analysis can be built on these.
 
 Detailed informations will be stored such as check_timestamp, table_name, column_name, value, severity, no_of records etc.
 
 #### not_null_where_db ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/generic_tests/test_not_null_where_db.sql))
+
 This test validates that there are no null values present in a column for a subset of rows by specifying a `where` clause.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -251,6 +279,7 @@ If not specified the default severity level is 'warn'. This option coresponds wi
 Kpi_category option allows you to change the default category, which this test will fall into in the looker dq_mart dashboard. Accepted values are: [`Accuracy`, `Consistency`, `Completeness`, `Timeliness`, `Validity`, `Uniqueness`]. Any other value will fall into `Other`. Default option for this test is Completeness.
 
 Usage:
+
 ```yaml
 version: 2
 
@@ -267,6 +296,7 @@ models:
 
 
 #### relationships_where_db ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/generic_tests/test_relationships_where_db.sql))
+
 This test validates the referential integrity between two relations (same as the core relationships schema test) with an added predicate to filter out some rows from the test. This is useful to exclude records such as test entities, rows created in the last X minutes/hours to account for temporary gaps due to ETL limitations, etc.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -276,6 +306,7 @@ If not specified the default severity level is 'warn'. This option coresponds wi
 Kpi_category option allows you to change the default category, which this test will fall into in the looker dq_mart dashboard. Accepted values are: [`Accuracy`, `Consistency`, `Completeness`, `Timeliness`, `Validity`, `Uniqueness`]. Any other value will fall into `Other`. Default option for this test is Consistency.
 
 Usage:
+
 ```yaml
 version: 2
 
@@ -294,6 +325,7 @@ models:
 ```
 
 #### unique_where_db ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/generic_tests/test_unique_where_db.sql))
+
 This test validates that there are no duplicate values present in a field for a subset of rows by specifying a `where` clause.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -303,6 +335,7 @@ If not specified the default severity level is 'warn'. This option coresponds wi
 Kpi_category option allows you to change the default category, which this test will fall into in the looker dq_mart dashboard. Accepted values are: [`Accuracy`, `Consistency`, `Completeness`, `Timeliness`, `Validity`, `Uniqueness`]. Any other value will fall into `Other`. Default option for this test is Uniqueness.
 
 Usage:
+
 ```yaml
 version: 2
 
@@ -318,6 +351,7 @@ models:
 ```
 
 #### recency_db ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/generic_tests/test_recency_db.sql))
+
 This schema test asserts that there is data in the referenced model at least as recent as the defined interval prior to the current timestamp.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -327,6 +361,7 @@ If not specified the default severity level is 'warn'. This option coresponds wi
 Kpi_category option allows you to change the default category, which this test will fall into in the looker dq_mart dashboard. Accepted values are: [`Accuracy`, `Consistency`, `Completeness`, `Timeliness`, `Validity`, `Uniqueness`]. Any other value will fall into `Other`. Default option for this test is Timeliness.
 
 Usage:
+
 ```yaml
 version: 2
 
@@ -342,6 +377,7 @@ models:
 ```
 
 #### expression_is_true_db ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/generic_tests/test_expression_is_true_db.sql))
+
 This schema test asserts that a valid sql expression is true for all records. This is useful when checking integrity across columns, for example, that a total is equal to the sum of its parts, or that at least one column is true.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -351,6 +387,7 @@ If not specified the default severity level is 'warn'. This option coresponds wi
 Kpi_category option allows you to change the default category, which this test will fall into in the looker dq_mart dashboard. Accepted values are: [`Accuracy`, `Consistency`, `Completeness`, `Timeliness`, `Validity`, `Uniqueness`]. Any other value will fall into `Other`. Default option for this test is Validity.
 
 Usage:
+
 ```yaml
 version: 2
 
@@ -364,6 +401,7 @@ models:
 ```
 
 #### accepted_values_where_db ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/generic_tests/test_accepted_values_where_db.sql))
+
 This schema test asserts that all of the column values are within the list of accepted values provided. As with other schema tests, optional parameter `where` can be specified for testing just a subset of the column.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -373,6 +411,7 @@ If not specified the default severity level is 'warn'. This option coresponds wi
 Kpi_category option allows you to change the default category, which this test will fall into in the looker dq_mart dashboard. Accepted values are: [`Accuracy`, `Consistency`, `Completeness`, `Timeliness`, `Validity`, `Uniqueness`]. Any other value will fall into `Other`. Default option for this test is Accuracy.
 
 Usage:
+
 ```yaml
 version: 2
 
@@ -386,6 +425,7 @@ models:
 ```
 
 #### equal_rowcount_where_db ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/generic_tests/test_equal_rowcount_where_db.sql))
+
 This schema test asserts that count of rows in two relations is the same. Optional parameters `where` and `compare_model_where` can be specified for testing just a subset of base and compared relations respectively.
 
 All data quality issues are stored in the dq_issues_log table.
@@ -395,6 +435,7 @@ If not specified the default severity level is 'warn'. This option coresponds wi
 Kpi_category option allows you to change the default category, which this test will fall into in the looker dq_mart dashboard. Accepted values are: [`Accuracy`, `Consistency`, `Completeness`, `Timeliness`, `Validity`, `Uniqueness`]. Any other value will fall into `Other`. Default option for this test is Consistency.
 
 Usage:
+
 ```yaml
 version: 2
 
@@ -409,6 +450,7 @@ models:
 ```
 
 #### equality_where_db ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/generic_tests/test_equality_where_db.sql))
+
 This schema test asserts that two relations (or subset of their columns) are equal. Relations as a whole are considered if the parameter `compare_columns` is not provided.
 Optional parameters `where` and `compare_model_where` can be specified for testing just a subset of base and compared relations respectively.
 
@@ -419,6 +461,7 @@ If not specified the default severity level is 'warn'. This option coresponds wi
 Kpi_category option allows you to change the default category, which this test will fall into in the looker dq_mart dashboard. Accepted values are: [`Accuracy`, `Consistency`, `Completeness`, `Timeliness`, `Validity`, `Uniqueness`]. Any other value will fall into `Other`. Default option for this test is Consistency.
 
 Usage:
+
 ```yaml
 version: 2
 
