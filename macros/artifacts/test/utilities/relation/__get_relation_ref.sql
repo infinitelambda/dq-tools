@@ -4,7 +4,7 @@
 
     {% for item in graph.nodes.values() | selectattr("name", "equalto", model_name) %}
       {% set relation -%}
-        {{  item.database }}.{{ item.schema }}.{{ item.alias }}
+        {{  item.database }}.{{ item.schema }}.{{ item.alias or item.name }}
       {%- endset %}
       {{ return(relation) }}
     {% endfor %}

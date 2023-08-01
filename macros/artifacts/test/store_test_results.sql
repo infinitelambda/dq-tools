@@ -1,4 +1,4 @@
-{% macro store_test_results(results, batch=100) -%}
+{% macro store_test_results(results, batch=1000) -%}
 
   {%- set enable_store_result = var('dq_tools_enable_store_test_results', false) -%}
   {%- if var('dbt_test_results_to_db', false) or not execute %}
@@ -9,7 +9,7 @@
     {{ log("Ignored as `store_test_results` functionality is NOT being enabled", true) if execute }}
     {{ return('') }}
   {% endif -%}
-
+  
 
   {%- set test_results = [] %}
   {%- for result in results if result.node.resource_type | lower == 'test' and result.status | lower != 'error' %}
@@ -43,6 +43,7 @@
       ,kpi_category
       ,no_of_records
       ,no_of_records_failed
+      ,no_of_table_columns
     )
 
     with logs as (
@@ -66,6 +67,7 @@
               ,test_severity_config as severity
               ,test_kpi_category_config as kpi_category
               ,no_of_records
+              ,no_of_records_failed
               ,no_of_records_failed
 
     from      logs;

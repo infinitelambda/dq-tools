@@ -13,6 +13,10 @@ model-paths: ["models"]
 models:
   dq_tools:
     +enabled: false
+    dq_issue_log:
+      +enabled: true
+      +database: "{{ var('dbt_dq_tool_database', target.database) }}"
+      +schema: "{{ var('dbt_dq_tool_schema', target.database) }}"
 
 vars:
   # dbt_dq_tool_schema: dq_raw
