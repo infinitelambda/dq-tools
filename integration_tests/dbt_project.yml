@@ -31,8 +31,8 @@ on-run-start:
     {% if var('fresh', false) %}
       {{ "drop schema if exists " ~ target.schema }};
       {{ "create schema " ~ target.schema }};
-      {{ "drop schema if exists " ~ var("dbt_dq_tool_schema", target.schema) }};
-      {{ "create schema " ~ var("dbt_dq_tool_schema", target.schema) }};
+      {{ "drop schema if exists " ~ var("dbt_dq_tool_database", target.database) ~ "." ~ var("dbt_dq_tool_schema", target.schema) }};
+      {{ "create schema "  ~ var("dbt_dq_tool_database", target.database) ~ "."  ~ var("dbt_dq_tool_schema", target.schema) }};
     {% endif %}
 
 on-run-end:
@@ -40,6 +40,7 @@ on-run-end:
 
 vars:
   dbt_dq_tool_schema: dq_raw
+  # dbt_dq_tool_database: dq_tools
 
 seeds:
   dq_tools_integration_tests:

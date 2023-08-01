@@ -10,6 +10,7 @@ dbt --version
 cd integration_tests
 cp ci/sample.profiles.yml profiles.yml
 export DBT_PROFILES_DIR=.
+export DBT_SCHEMA=${DBT_SCHEMA//./_}
 
 # Show the location of the profiles directory and test the connection
 dbt debug --target $1
@@ -36,10 +37,10 @@ echo -e "${BLUE}1: Perform Failures intentionally inc Errors / w Fresh enviromen
 dbt seed --target $1 $_models || exit 1
 
 echo -e "${BLUE}2: Verify macros / Turn warns as errors${NC}"
-dbt --warn-error build --exclude source:dq_tools+ tag:failed --vars '{dq_tools_enable_store_test_results: true}' --target $1 $_models || exit 1
+dbt --warn-error build --exclude source:dq_tools_test+ tag:failed --vars '{dq_tools_enable_store_test_results: true}' --target $1 $_models || exit 1
 
 echo -e "${BLUE}2: Enable & Verify models / Turn warns as errors${NC}"
-dbt --warn-error build --select +tag:dq+ --exclude source:dq_tools --vars '{dq_tools_enable_store_test_results: true}' --target $1 $_models || exit 1
+dbt --warn-error build --select +tag:dq+ --exclude source:dq_tools_test --vars '{dq_tools_enable_store_test_results: true}' --target $1 $_models || exit 1
 
 echo -e "${BLUE}3: Verify log table / Turn warns as errors${NC}"
-dbt --warn-error test --select source:dq_tools --target $1 || exit 1
+dbt --warn-error test --select source:dq_tools_test --target $1 || exit 1

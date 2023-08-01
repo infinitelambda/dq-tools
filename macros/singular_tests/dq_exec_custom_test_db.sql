@@ -15,7 +15,7 @@
 
     begin;
 
-    insert into {{ target.database }}.DBT.DQ_BUSINESS_CHECK_LOG (business_check_code, business_check_comment, check_timestamp, no_of_records, invocation_id, dq_model, severity, sql_cmd)
+    insert into {{ var('dbt_dq_tool_database', target.database) }}.DBT.DQ_BUSINESS_CHECK_LOG (business_check_code, business_check_comment, check_timestamp, no_of_records, invocation_id, dq_model, severity, sql_cmd)
 
     with subsql as
     (
@@ -46,7 +46,7 @@ commit;
    {% do run_query(sql_cmd) %}
 
    select 1
-   from {{ target.database }}.DBT.DQ_BUSINESS_CHECK_LOG
+   from {{ var('dbt_dq_tool_database', target.database) }}.DBT.DQ_BUSINESS_CHECK_LOG
    where invocation_id='{{ p_invocation_id }}'
          and dq_model = '{{ this }}'
 {% endif %}
