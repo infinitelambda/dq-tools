@@ -6,6 +6,8 @@
 {% set kpi_category = kwargs.get('kpi_category', 'Consistency') %}
 {% set p_invocation_id = invocation_id %}
 {% set model_text = model | replace("'", "''") %}
+{% set columns_csv = kwargs.get('columns_csv', '*') %}
+{% set compare_columns_csv = kwargs.get('compare_columns_csv', kwargs.get('columns_csv', '*')) %}
 
 
 {% if kpi_category not in ['Accuracy', 'Consistency', 'Completeness', 'Timeliness', 'Validity', 'Uniqueness'] %}
@@ -29,7 +31,7 @@
         with left_table as (
 
           select
-            count(*) as count_a
+            count({{ columns_csv }}) as count_a
 
           from {{model}}
 
@@ -40,7 +42,7 @@
         right_table as (
 
           select
-            count(*) as count_b
+            count({{ compare_columns_csv }}) as count_b
 
           from {{ compare_model }}
 
@@ -82,7 +84,7 @@
     with left_table as (
 
         select
-          count(*) as count_a
+          count({{ columns_csv }}) as count_a
 
         from {{model}}
 
@@ -93,7 +95,7 @@
       right_table as (
 
         select
-          count(*) as count_b
+          count({{ compare_columns_csv }}) as count_b
 
         from {{ compare_model }}
 
