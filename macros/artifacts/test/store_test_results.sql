@@ -39,8 +39,10 @@
       ,severity
       ,kpi_category
       ,no_of_records
+      ,no_of_records_scanned
       ,no_of_records_failed
       ,no_of_table_columns
+      ,test_unique_id
     )
 
     with logs as (
@@ -64,8 +66,10 @@
               ,test_severity_config as severity
               ,test_kpi_category_config as kpi_category
               ,no_of_records
+              ,no_of_records_scanned
               ,no_of_records_failed
               ,no_of_table_columns
+              ,test_unique_id
 
     from      logs;
 

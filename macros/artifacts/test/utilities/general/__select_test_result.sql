@@ -7,6 +7,7 @@
 
   {%- set test_type = dq_tools.__get_test_type(result.node) -%}
   {%- set testing_model = dq_tools.__get_test_model(result.node) -%}
+  {%- set testing_model_relation = dq_tools.__get_relation(testing_model) -%}
   /* {{ testing_model }} */
 
   select   '{{ result.node.unique_id }}' as test_unique_id
@@ -21,16 +22,20 @@
                 testing_model,
                 result.node.config,
                 sql_escape=true) }}' as table_name
-          ,'{{ dq_tools.__get_to_relation(result.node) }}' as ref_table
+          ,'{{ dq_tools.__get_to_relation(testing_model) }}' as ref_table
           ,'{{ dq_tools.__get_column_name(result.node) | escape }}' as column_name
           ,{% if test_type == 'generic' %}
-              {{ adapter.get_columns_in_relation(dq_tools.__get_relation(testing_model)) | length }}
+              {{ adapter.get_columns_in_relation(testing_model_relation) | length }}
             {% else %}null{% endif %} as no_of_table_columns
           ,'{{ dq_tools.__get_to_column_name(result.node) | escape }}' as ref_column
           ,{% if test_type == 'generic' %}(
               select  count(*)
-              from    {{ dq_tools.__get_where_subquery(testing_model, result.node.config) }}
+              from    {{ testing_model_relation }}
             ){% else %}null{% endif %} as no_of_records
+          ,{% if test_type == 'generic' %}(
+              select  count(*)
+              from    {{ dq_tools.__get_where_subquery(testing_model, result.node.config) }}
+            ){% else %}null{% endif %} as no_of_records_scanned
           ,coalesce({{ result.failures or 'null' }}, 0) as no_of_records_failed
           ,'{{ test_type }}' as test_type
           ,'{{ result.execution_time }}' as execution_time_seconds

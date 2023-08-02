@@ -31,8 +31,7 @@ on-run-start:
     {% if var('fresh', false) %}
       {{ "drop schema if exists " ~ target.schema }};
       {{ "create schema " ~ target.schema }};
-      {{ "drop schema if exists " ~ var("dbt_dq_tool_database", target.database) ~ "." ~ var("dbt_dq_tool_schema", target.schema) }};
-      {{ "create schema "  ~ var("dbt_dq_tool_database", target.database) ~ "."  ~ var("dbt_dq_tool_schema", target.schema) }};
+      {{ "create or replace table " ~ ref("dq_tools", "dq_issue_log") ~ " as select 1 as dummy where 1=0" }};
     {% endif %}
 
 on-run-end:
