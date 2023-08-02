@@ -2,8 +2,10 @@ version: 2
 
 sources:
   - name: dq_tools_test
+    # mimic default generate_database_name()
     database: "{{ var('dbt_dq_tool_database', target.database) }}"
-    schema: "{{ var('dbt_dq_tool_schema') }}"
+    # mimic default generate_schema_name()
+    schema: "{{ target.schema ~ '_' ~ var('dbt_dq_tool_schema', target.schema) }}"
     tables:
       - name: dq_issue_log
         tests:

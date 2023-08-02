@@ -5,6 +5,7 @@
   {%- set dbt_cloud_job_id = env_var("DBT_CLOUD_ACCOUNT_ID", "manual") -%}
   {%- set dbt_cloud_run_id = env_var("DBT_CLOUD_ACCOUNT_ID", "manual") -%}
 
+  {%- set test_type = dq_tools.__get_test_type(result.node) -%}
   {%- set testing_model = dq_tools.__get_test_model(result.node) -%}
   /* {{ testing_model }} */
 
@@ -22,15 +23,16 @@
                 sql_escape=true) }}' as table_name
           ,'{{ dq_tools.__get_to_relation(result.node) }}' as ref_table
           ,'{{ dq_tools.__get_column_name(result.node) | escape }}' as column_name
-          ,{{ adapter.get_columns_in_relation(dq_tools.__get_relation(testing_model)) | length }} as no_of_table_columns
+          ,{% if test_type == 'generic' %}
+              {{ adapter.get_columns_in_relation(dq_tools.__get_relation(testing_model)) | length }}
+            {% else %}null{% endif %} as no_of_table_columns
           ,'{{ dq_tools.__get_to_column_name(result.node) | escape }}' as ref_column
-          ,{% if dq_tools.__get_test_type(result.node) == 'generic' %}(
-            select  count(*)
-            from    {{ dq_tools.__get_where_subquery(testing_model, result.node.config) }}
-          ){% else %}null
-          {%- endif %} as no_of_records
+          ,{% if test_type == 'generic' %}(
+              select  count(*)
+              from    {{ dq_tools.__get_where_subquery(testing_model, result.node.config) }}
+            ){% else %}null{% endif %} as no_of_records
           ,coalesce({{ result.failures or 'null' }}, 0) as no_of_records_failed
-          ,'{{ dq_tools.__get_test_type(result.node) }}' as test_type
+          ,'{{ test_type }}' as test_type
           ,'{{ result.execution_time }}' as execution_time_seconds
           ,'{{ result.node.original_file_path }}' as file_test_defined
           ,'{{ target.name }}' as dbt_target_name
@@ -44,6 +46,6 @@
             '/projects/{{ dbt_cloud_account_id }}',
             '/runs/{{ dbt_cloud_run_id }} '
           ) as audit_run_url
-          ,{{ dq_tools.current_timestamp() }} as _timestamp
+          ,{{ dq_tools.current_timestamp_in_utc() }} as _timestamp
 
 {%- endmacro %}

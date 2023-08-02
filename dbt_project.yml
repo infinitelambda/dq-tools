@@ -12,11 +12,12 @@ model-paths: ["models"]
 
 models:
   dq_tools:
-    +enabled: false
-    dq_issue_log:
+    01_lake:
       +enabled: true
-      +database: "{{ var('dbt_dq_tool_database', target.database) }}"
-      +schema: "{{ var('dbt_dq_tool_schema', target.database) }}"
+    02_staging:
+      +enabled: false
+    03_mart:
+      +enabled: false
 
 vars:
   # dbt_dq_tool_schema: dq_raw

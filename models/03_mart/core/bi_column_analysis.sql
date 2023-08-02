@@ -13,12 +13,11 @@ select  check_timestamp         as run_time,
         no_of_records           as rows_processed,
         no_of_records_failed    as indicator_value
 
-from    {{ source('dq_tools', 'dq_issue_log') }}
+from    {{ ref('dq_tools', 'dq_issue_log') }}
 
 qualify row_number() over (
   partition by  table_name,
                 column_name,
-                column_value,
                 ref_table,
                 ref_column,
                 dq_issue_type,

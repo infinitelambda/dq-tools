@@ -2,7 +2,12 @@ version: 2
 
 models:
   - name: dq_issue_log
-    description: Log table contains test results
+    description: |
+      Log table contains test results.
+
+      Primary Keys:
+      - invocation_id
+      - dq_model
     columns:
       - name: check_timestamp
         description: Test run timestamp

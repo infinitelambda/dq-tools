@@ -1,4 +1,4 @@
-{% macro store_test_results(results, batch=1000) -%}
+{% macro store_test_results(results, log_tbl=ref('dq_tools', 'dq_issue_log'), batch=1000) -%}
 
   {%- set enable_store_result = var('dq_tools_enable_store_test_results', false) -%}
   {%- if var('dbt_test_results_to_db', false) or not execute %}
@@ -21,14 +21,11 @@
     {{ return('') -}}
   {% endif -%}
 
-  {%- set log_tbl %} {{ var('dbt_dq_tool_database', target.database) }}.{{ var('dbt_dq_tool_schema') }}.dq_issue_log {% endset -%}
-
-  {{ log("Centralizing " ~ test_results|length ~ " test results in " + log_tbl, true) if execute -}}
-  {{- dq_tools.create_dq_issue_log() -}}
+  {{ log("Centralizing " ~ test_results|length ~ " test results in " ~ log_tbl, true) if execute -}}
 
   {% for i in range(0, (test_results | length), batch) -%}
-
-    {% set chunk = test_results[i:i+batch] %}
+  
+    {% set chunk_items = test_results[i:i+batch] %}
     insert into {{ log_tbl }}
     (
        check_timestamp
@@ -48,8 +45,8 @@
 
     with logs as (
 
-    {%- for result in chunk %}
-
+    {%- for result in chunk_items %}
+    
       {{ dq_tools.__select_test_result(result) }}
       {{ "union all" if not loop.last }}
 
@@ -68,7 +65,7 @@
               ,test_kpi_category_config as kpi_category
               ,no_of_records
               ,no_of_records_failed
-              ,no_of_records_failed
+              ,no_of_table_columns
 
     from      logs;
 
