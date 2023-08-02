@@ -30,6 +30,7 @@
     (
        check_timestamp
       ,table_name
+      ,table_query
       ,column_name
       ,ref_table
       ,ref_column
@@ -57,6 +58,7 @@
 
     select    _timestamp as check_timestamp
               ,table_name
+              ,table_query
               ,column_name
               ,ref_table
               ,ref_column

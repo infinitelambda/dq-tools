@@ -18,10 +18,11 @@
           ,'{{ dq_tools.__get_kpi_categorize(result.node) }}' as test_kpi_category_config
           ,'{{ dq_tools.__get_dq_issue_type(result.node) }}' as dq_issue_type
           ,'{{ result.status }}' as test_result
+          ,'{{ testing_model_relation }}' as table_name
           ,'{{ dq_tools.__get_where_subquery(
                 testing_model,
                 result.node.config,
-                sql_escape=true) }}' as table_name
+                sql_escape=true) }}' as table_query
           ,'{{ dq_tools.__get_to_relation(testing_model) }}' as ref_table
           ,'{{ dq_tools.__get_column_name(result.node) | escape }}' as column_name
           ,{% if test_type == 'generic' %}

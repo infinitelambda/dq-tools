@@ -13,6 +13,7 @@
 
 select   cast(null as {{ dbt.type_timestamp() }}) as check_timestamp
         ,cast(null as {{ dbt.type_string() }}) as table_name
+        ,cast(null as {{ dbt.type_string() }}) as table_query
         ,cast(null as {{ dbt.type_string() }}) as column_name
         ,cast(null as {{ dbt.type_string() }}) as ref_table
         ,cast(null as {{ dbt.type_string() }}) as ref_column
