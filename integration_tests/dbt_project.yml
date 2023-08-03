@@ -39,6 +39,10 @@ on-run-end:
 vars:
   dbt_dq_tool_schema: dq_raw
   # dbt_dq_tool_database: dq_tools
+  dbt_dq_tool_test_coverage_exclusion:
+    by_database: ['dummy']
+    by_schema: ['dq_tools_mart']
+    by_table: ['dq_issue_log', 'dummy']
 
 seeds:
   dq_tools_integration_tests:
@@ -48,6 +52,7 @@ models:
   dq_tools:
     03_mart:
       +enabled: true
+      +schema: dq_tools_mart
 
 metrics:
   dq_tools:

@@ -20,7 +20,11 @@ models:
       +enabled: false
 
 vars:
+  # dq_tools_enable_store_test_results: true
   # dbt_dq_tool_schema: dq_raw
   # dbt_dq_tool_database: dq_tools
-  # dq_tools_enable_store_test_results: true
   # dbt_dq_tool_full_refresh: false
+  # dbt_dq_tool_test_coverage_exclusion:
+  #   by_database_fqn: []
+  #   by_schema_fqn: []
+  #   by_table_fqn: []
