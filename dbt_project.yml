@@ -23,3 +23,4 @@ vars:
   # dbt_dq_tool_schema: dq_raw
   # dbt_dq_tool_database: dq_tools
   # dq_tools_enable_store_test_results: true
+  # dbt_dq_tool_full_refresh: false

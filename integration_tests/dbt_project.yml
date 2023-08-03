@@ -31,7 +31,6 @@ on-run-start:
     {% if var('fresh', false) %}
       {{ "drop schema if exists " ~ target.schema }};
       {{ "create schema " ~ target.schema }};
-      {{ "create or replace table " ~ ref("dq_tools", "dq_issue_log") ~ " as select 1 as dummy where 1=0" }};
     {% endif %}
 
 on-run-end:

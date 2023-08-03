@@ -23,6 +23,7 @@
 
   {{ log("Centralizing " ~ test_results|length ~ " test results in " ~ log_tbl, true) if execute -}}
 
+  {% set no_of_tables = dq_tools.__get_tables_from_graph() | length %}
   {% for i in range(0, (test_results | length), batch) -%}
   
     {% set chunk_items = test_results[i:i+batch] %}
@@ -43,6 +44,7 @@
       ,no_of_records_scanned
       ,no_of_records_failed
       ,no_of_table_columns
+      ,no_of_tables
       ,test_unique_id
     )
 
@@ -71,6 +73,7 @@
               ,no_of_records_scanned
               ,no_of_records_failed
               ,no_of_table_columns
+              ,{{ no_of_tables }} as no_of_tables
               ,test_unique_id
 
     from      logs;

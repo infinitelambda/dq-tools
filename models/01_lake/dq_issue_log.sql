@@ -4,7 +4,7 @@
     schema = var('dbt_dq_tool_schema', target.schema),
     materialized = 'incremental',
     on_schema_change = 'append_new_columns',
-    full_refresh = false
+    full_refresh = var('dbt_dq_tool_full_refresh', false)
   )
 }}
 
@@ -26,6 +26,7 @@ select   cast(null as {{ dbt.type_timestamp() }}) as check_timestamp
         ,cast(null as {{ dbt.type_int() }}) as no_of_records_scanned
         ,cast(null as {{ dbt.type_int() }}) as no_of_records_failed
         ,cast(null as {{ dbt.type_int() }}) as no_of_table_columns
+        ,cast(null as {{ dbt.type_int() }}) as no_of_tables
         ,cast(null as {{ dbt.type_string() }}) as test_unique_id
 
 where   1=0
