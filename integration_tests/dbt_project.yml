@@ -40,9 +40,9 @@ vars:
   dbt_dq_tool_schema: dq_raw
   # dbt_dq_tool_database: dq_tools
   dbt_dq_tool_test_coverage_exclusion:
-    by_database: ['dummy']
-    by_schema: ['dq_tools_mart']
-    by_table: ['dq_issue_log', 'dummy']
+    by_database: ['dummy'] # dummy inputs
+    by_schema: ['dq_tools_mart'] # exclude all dq_tools.03_mart
+    by_table: ['dq_issue_log', 'dummy'] # dummy inputs
 
 seeds:
   dq_tools_integration_tests:

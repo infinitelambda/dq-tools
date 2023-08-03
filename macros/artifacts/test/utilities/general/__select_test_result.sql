@@ -23,7 +23,7 @@
                 testing_model,
                 result.node.config,
                 sql_escape=true) }}' as table_query
-          ,'{{ dq_tools.__get_to_relation(testing_model) }}' as ref_table
+          ,'{{ dq_tools.__get_to_relation(result.node) }}' as ref_table
           ,'{{ dq_tools.__get_column_name(result.node) | escape }}' as column_name
           ,{% if test_type == 'generic' %}
               {{ adapter.get_columns_in_relation(testing_model_relation) | length }}
