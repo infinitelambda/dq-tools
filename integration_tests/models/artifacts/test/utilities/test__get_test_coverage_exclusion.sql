@@ -1,5 +1,5 @@
 select  'integration test - default' as test_case,
-        ,'{{ var("dbt_dq_tool_test_coverage_exclusion", {}) | escape }}' as test_input,
+        '{{ var("dbt_dq_tool_test_coverage_exclusion", {}) | escape }}' as test_input,
         '{{ dq_tools.__get_test_coverage_exclusion() | escape }}' as actual,
         '{{ ("{'databases': ['dummy'], 'schemas': ['" | escape) 
             ~ generate_schema_name("dq_tools_mart") 
@@ -10,7 +10,7 @@ select  'integration test - default' as test_case,
 {%- set rule = (fromyaml(test_input) or {}).get('dbt_dq_tool_test_coverage_exclusion', {}) %}
 union all
 select  'integration test - default' as test_case,
-        ,'{{ rule | escape }}' as test_input,
+        '{{ rule | escape }}' as test_input,
         '{{ dq_tools.__get_test_coverage_exclusion(rule=rule) | escape }}' as actual,
         '{{ "{'databases': [], 'schemas': [], 'tables': []}" | escape }}' as expected
 
@@ -23,7 +23,7 @@ dbt_dq_tool_test_coverage_exclusion:
 {%- set rule = (fromyaml(test_input) or {}).get('dbt_dq_tool_test_coverage_exclusion', {}) %}
 union all
 select  'multiple values accros all arguments' as test_case,
-        ,'{{ rule | escape }}' as test_input,
+        '{{ rule | escape }}' as test_input,
         '{{ dq_tools.__get_test_coverage_exclusion(rule=rule) | escape }}' as actual,
         '{{ ("{'databases': ['dummy', 'dummy2'], 'schemas': ["
           ~ "'" ~ generate_schema_name("dummy1") ~ "', "

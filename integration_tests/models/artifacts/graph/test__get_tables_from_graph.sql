@@ -1,4 +1,4 @@
-select 'irrelevant' as actual, 'irrelevant' as expected
+select -1 as actual, -1 as expected
 {% if execute -%}
 
   {% set nodes = [] -%}
@@ -8,4 +8,5 @@ select 'irrelevant' as actual, 'irrelevant' as expected
   union all
   select  {{ dq_tools.__get_tables_from_graph() | length }} as actual
           ,{{ nodes | length }} as expected
+
 {%- endif %}

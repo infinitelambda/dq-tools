@@ -12,7 +12,7 @@
   
 
   {%- set test_results = [] %}
-  {%- for result in results if result.node.resource_type | lower == 'test' and result.status | lower != 'error' %}
+  {%- for result in results if result.node.resource_type | lower == 'test' and result.status | lower not in ['error', 'skipped'] %}
     {%- set test_results = test_results.append(result) -%}
   {% endfor -%}
 

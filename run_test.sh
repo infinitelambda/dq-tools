@@ -29,7 +29,7 @@ NC='\033[0m' # No Color
 
 # Run the test
 echo -e "${BLUE}1: Perform Failures intentionally inc Errors / w Fresh enviroment${NC}"
-dbt run -s dq_tools --vars '{dbt_dq_tool_full_refresh: true, fresh: true}' --full-refresh
+dbt run -s dq_tools --vars '{dbt_dq_tool_full_refresh: true, fresh: true}' --full-refresh --target $1
 { # try
   dbt build --select tag:failed --vars '{dq_tools_enable_store_test_results: true}' --target $1 $_models
 } || { # catch
