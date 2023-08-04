@@ -8,8 +8,12 @@
   )
 }}
 
---append new column
---disabled full refresh --> full refresh required manual droping
+{#-
+  - append new column
+  - disabled full refresh --> full refresh required manual droping 
+-#}
+
+with    dummy as (select 1 as col)
 
 select   cast(null as {{ dbt.type_timestamp() }}) as check_timestamp
         ,cast(null as {{ dbt.type_string() }}) as table_name
@@ -28,5 +32,7 @@ select   cast(null as {{ dbt.type_timestamp() }}) as check_timestamp
         ,cast(null as {{ dbt.type_int() }}) as no_of_table_columns
         ,cast(null as {{ dbt.type_int() }}) as no_of_tables
         ,cast(null as {{ dbt.type_string() }}) as test_unique_id
+
+from    dummy
 
 where   1=0
