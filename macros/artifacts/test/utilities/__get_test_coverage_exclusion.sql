@@ -1,6 +1,4 @@
-{% macro __get_test_coverage_exclusion() %}
-
-  {% set rule = var('dbt_dq_tool_test_coverage_exclusion', {}) %}
+{% macro __get_test_coverage_exclusion(rule=var('dbt_dq_tool_test_coverage_exclusion', {})) %}
 
   {% set databases = [] %}
   {% for rule in rule.get('by_database', []) %}
