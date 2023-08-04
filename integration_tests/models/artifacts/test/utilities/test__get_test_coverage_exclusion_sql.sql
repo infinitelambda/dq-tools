@@ -4,4 +4,4 @@ select  'integration test - default' as test_case,
           "((lower(split(table_name,'.')[0])in('dummy'))or(lower(split(table_name,'.')[1])in('"
           ~ generate_schema_name("dq_tools_mart")
           ~ "'))or(lower(split(table_name,'.')[2])in('dq_issue_log','dummy')))"
-        ) | escape }}' as expected
+        ) | escape | lower }}' as expected
