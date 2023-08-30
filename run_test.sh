@@ -44,3 +44,8 @@ dbt --warn-error build --select +tag:dq+ --exclude source:dq_tools_test --vars '
 
 echo -e "${BLUE}3: Verify log table / Turn warns as errors${NC}"
 dbt --warn-error test --select source:dq_tools_test --target $1 || exit 1
+
+echo -e "${BLUE}4: Make sure the metrics working {NC}"
+dbt parse
+mf list metrics
+mf query --metrics data_quality_score --group-by key__run_time key__dq_dimension

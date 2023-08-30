@@ -45,12 +45,3 @@ vars:
 seeds:
   dq_tools_integration_tests:
     +schema: seed
-
-models:
-  dq_tools:
-    03_mart:
-      +enabled: true
-
-metrics:
-  dq_tools:
-    +enabled: true
