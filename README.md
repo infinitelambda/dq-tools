@@ -21,7 +21,7 @@ The purpose of the dq tool is to make simple storing test results and visualisat
   ```yml
   packages:
     - package: infinitelambda/dq_tools
-      version: [">=1.3.0", "<1.4.0"]
+      version: [">=1.2.0", "<1.3.0"]
   ```
 - Configure schema in `dbt_project.yml` file:
 
@@ -124,13 +124,21 @@ Go to [dbt Hub](https://hub.getdbt.com/infinitelambda/dq_tools/latest/) and regi
 
 ### 1. Create table DQ_ISSUE_LOG in the database
 
-A macro `create_table_dq_issue_log` ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/create_table_dq_issue_log.sql)) will create the log table in your database (Snowflake) / project (BigQuery).
+Since the version 1.3, the table `dq_issue_log` is made as dbt model, no more manual hook config :tada:.
 
-Add `on-run-start` hook (required dbt >= 1.0.0):
-```yml
-on-run-start:
-  - '{{ dq_tools.create_table_dq_issue_log() }}'
-```
+It should be created automatically within your upstream dbt command. If not, all you should do that is running the command: `dbt run -s dq_tools`.
+
+<details>
+  <summary>For dq-tools legacy version >=1.0,<1.3</summary>
+
+  A macro `create_table_dq_issue_log` ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/create_table_dq_issue_log.sql)) will create the log table in your database (Snowflake) / project (BigQuery).
+
+  Add `on-run-start` hook (required dbt >= 1.0.0):
+  ```yml
+  on-run-start:
+    - '{{ dq_tools.create_table_dq_issue_log() }}'
+  ```
+</details>
 
 <details>
   <summary>For dq-tools legacy version < 1.0, you can run it as an operation</summary>
@@ -147,17 +155,15 @@ Value for variable `dbt_dq_tool_schema: your_schema_name` needs to be added to d
 e.g.
 ```yaml
 vars:
-  # to create db table in the schema named as AUDIT
+  # (optional) to create db table in the schema named as AUDIT, default to `target.schema`
   dbt_dq_tool_schema: AUDIT
-  # (optional) to create db table in the database named as DQ_TOOLS
+  # (optional) to create db table in the database named as DQ_TOOLS, default to `target.database`
   dbt_dq_tool_database: DQ_TOOLS
 ```
 
 ### 3. Decide to save test result to Data Warehouse table:
 
 #### With `dq_tools_enable_store_test_results` variable:
-
-  NOTE: This variable only works when `dbt_test_results_to_db = False` (default, for backward compatibility purpose) with the newest version of dq-tools.
 
   Add the `on-run-end` hook to you project:
   ```yaml
@@ -233,17 +239,25 @@ vars:
 </details>
 
 ### 4. Decide to enable building the downstream models of the log table:
-Enable it in `dbt_project.yml` file:
-```yml
-# dbt_project.yml
-models:
-  dq_tools:
-    +enabled: true
 
-metrics:
-  dq_tools:
-    +enabled: true
-```
+Since the version 1.4+, all models and metrics will be enabled by default.
+
+  <details>
+    <summary>For dq-tools version <1.4</summary>
+    
+    Enable it in `dbt_project.yml` file:
+
+    ```yml
+    # dbt_project.yml
+    models:
+      dq_tools:
+        +enabled: true
+
+    metrics:
+      dq_tools:
+        +enabled: true
+    ```
+  </details>
 
 ## Macros
 
