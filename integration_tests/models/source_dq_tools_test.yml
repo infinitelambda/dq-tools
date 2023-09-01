@@ -2,8 +2,10 @@ version: 2
 
 sources:
   - name: dq_tools_test
+    # mimic default generate_database_name()
     database: "{{ var('dbt_dq_tool_database', target.database) }}"
-    schema: "{{ var('dbt_dq_tool_schema') }}"
+    # mimic default generate_schema_name()
+    schema: "{{ target.schema ~ '_' ~ var('dbt_dq_tool_schema', target.schema) }}"
     tables:
       - name: dq_issue_log
         tests:
@@ -59,6 +61,13 @@ sources:
               - dq_tools.expression_is_true_db:
                   where: coalesce(ref_table,'') != ''
                   expression: no_of_records >= 0
+          - name: no_of_records_scanned
+            tests:
+              - dq_tools.not_null_where_db:
+                  where: coalesce(table_name,'') != ''
+              - dq_tools.expression_is_true_db:
+                  where: coalesce(ref_table,'') != ''
+                  expression: no_of_records >= 0
           - name: no_of_records_failed
             tests:
               - dq_tools.not_null_where_db
@@ -67,3 +76,6 @@ sources:
               - dq_tools.expression_is_true_db:
                   where: lower(dq_model) like '%failure%'
                   expression: no_of_records_failed > 0
+          - name: test_unique_id
+            tests:
+              - dq_tools.not_null_where_db

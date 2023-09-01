@@ -1,0 +1,5 @@
+version: 2
+
+macros:
+  - name: __get_tables_from_graph
+    description: Returns all graph materializable nodes which are source, model, seed, snapshot
