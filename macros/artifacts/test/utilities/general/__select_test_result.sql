@@ -5,35 +5,40 @@
   {%- set dbt_cloud_job_id = env_var("DBT_CLOUD_ACCOUNT_ID", "manual") -%}
   {%- set dbt_cloud_run_id = env_var("DBT_CLOUD_ACCOUNT_ID", "manual") -%}
 
-  select   '{{ result.node.alias }}' as test_name
+  {%- set test_type = dq_tools.__get_test_type(result.node) -%}
+  {%- set testing_model = dq_tools.__get_test_model(result.node) -%}
+  {%- set testing_model_relation = dq_tools.__get_relation(testing_model) -%}
+  /* {{ testing_model }} */
+
+  select   '{{ result.node.unique_id }}' as test_unique_id
+          ,'{{ result.node.alias }}' as test_name
           ,'{{ result.node.name }}' as test_name_long
           ,'{{ result.node.database ~ "." ~ result.node.schema ~ "." ~ result.node.name }}' as dq_model
           ,'{{ result.node.config.severity | lower }}' as test_severity_config
           ,'{{ dq_tools.__get_kpi_categorize(result.node) }}' as test_kpi_category_config
           ,'{{ dq_tools.__get_dq_issue_type(result.node) }}' as dq_issue_type
           ,'{{ result.status }}' as test_result
-          /* - for debugging purpose -
-            __get_test_model:
-            {{ dq_tools.__get_test_model(result.node) -}}
-          */
+          ,'{{ testing_model_relation }}' as table_name
           ,'{{ dq_tools.__get_where_subquery(
-                dq_tools.__get_test_model(result.node),
+                testing_model,
                 result.node.config,
-                sql_escape=true) }}' as table_name
+                sql_escape=true) }}' as table_query
           ,'{{ dq_tools.__get_to_relation(result.node) }}' as ref_table
           ,'{{ dq_tools.__get_column_name(result.node) | escape }}' as column_name
+          ,{% if test_type == 'generic' %}
+              {{ adapter.get_columns_in_relation(testing_model_relation) | length }}
+            {% else %}null{% endif %} as no_of_table_columns
           ,'{{ dq_tools.__get_to_column_name(result.node) | escape }}' as ref_column
-          ,{% if dq_tools.__get_test_type(result.node) == 'generic' %}(
-            select  count(*)
-            from    {{ dq_tools.__get_where_subquery(
-                        dq_tools.__get_test_model(result.node),
-                        result.node.config
-                      )
-                    }}
-          ){% else %}null
-          {%- endif %} as no_of_records
+          ,{% if test_type == 'generic' %}(
+              select  count(*)
+              from    {{ testing_model_relation }}
+            ){% else %}null{% endif %} as no_of_records
+          ,{% if test_type == 'generic' %}(
+              select  count(*)
+              from    {{ dq_tools.__get_where_subquery(testing_model, result.node.config) }}
+            ){% else %}null{% endif %} as no_of_records_scanned
           ,coalesce({{ result.failures or 'null' }}, 0) as no_of_records_failed
-          ,'{{ dq_tools.__get_test_type(result.node) }}' as test_type
+          ,'{{ test_type }}' as test_type
           ,'{{ result.execution_time }}' as execution_time_seconds
           ,'{{ result.node.original_file_path }}' as file_test_defined
           ,'{{ target.name }}' as dbt_target_name
@@ -47,6 +52,6 @@
             '/projects/{{ dbt_cloud_account_id }}',
             '/runs/{{ dbt_cloud_run_id }} '
           ) as audit_run_url
-          ,{{ dq_tools.current_timestamp() }} as _timestamp
+          ,{{ dq_tools.current_timestamp_in_utc() }} as _timestamp
 
 {%- endmacro %}

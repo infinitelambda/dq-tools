@@ -1,0 +1,34 @@
+version: 2
+
+metrics:
+  - name: test_coverage
+    config:
+      enabled: false # disable by default because upstream models disabled too
+    label: Test Coverage
+    model: ref('test_coverage')
+    description: Percentage of test coverage by each dbt invocation 
+
+    calculation_method: average
+    expression: coverage_pct
+
+    timestamp: check_timestamp
+    time_grains: [day, week, month, quarter, year]
+
+    dimensions:
+      - invocation_id
+
+  - name: test_to_column_ratio
+    config:
+      enabled: false # disable by default because upstream models disabled too
+    label: Test to Column Ratio
+    model: ref('test_coverage')
+    description: Ratio between the number of tests vs the number of columns
+
+    calculation_method: average
+    expression: test_to_column_ratio
+
+    timestamp: check_timestamp
+    time_grains: [day, week, month, quarter, year]
+
+    dimensions:
+      - invocation_id

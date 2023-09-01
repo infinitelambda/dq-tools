@@ -13,7 +13,7 @@ config:
 select  'ref without where' as test_case,
         '{{ result_node | escape }}' as input,
         '{{  dq_tools.__get_where_subquery(test_model, result_node.config) }}' as actual,
-        '{{ target.database }}.{{ generate_schema_name("seed") }}.data_test__get_where_subquery' as expected
+        '{{ adapter.get_relation(database=target.database, schema=generate_schema_name("seed"), identifier="data_test__get_where_subquery") }}' as expected
 
 -- ref with where
 {%- set result_node -%}
@@ -30,7 +30,7 @@ union all
 select  'ref with where' as test_case,
         '{{ result_node | escape }}' as input,
         '{{  dq_tools.__get_where_subquery(test_model, result_node.config) }}' as actual,
-        '(select * from {{ target.database }}.{{ generate_schema_name("seed") }}.data_test__get_where_subquery where id = 1) dbt_subquery' as expected
+        '(select * from {{ adapter.get_relation(database=target.database, schema=generate_schema_name("seed"), identifier="data_test__get_where_subquery") }} where id = 1) dbt_subquery' as expected
 
 -- ref with where | escape
 {%- set result_node -%}
@@ -47,7 +47,7 @@ union all
 select  'ref with where | sql_escape' as test_case,
         '{{ result_node | escape }}' as input,
         '{{  dq_tools.__get_where_subquery(test_model, result_node.config, sql_escape=true) }}' as actual,
-        '(select * from {{ target.database }}.{{ generate_schema_name("seed") }}.data_test__get_where_subquery where id = \'1\') dbt_subquery' as expected
+        '(select * from {{ adapter.get_relation(database=target.database, schema=generate_schema_name("seed"), identifier="data_test__get_where_subquery") }} where id = \'1\') dbt_subquery' as expected
 
 -- ref referencing a package
 {%- set result_node -%}
@@ -64,7 +64,7 @@ union all
 select  'ref referencing a package' as test_case,
         '{{ result_node | escape }}' as input,
         '{{  dq_tools.__get_where_subquery(test_model, result_node.config) }}' as actual,
-        '(select * from {{ target.database }}.{{ generate_schema_name("seed") }}.data_test__get_where_subquery where id = 1) dbt_subquery' as expected
+        '(select * from {{ adapter.get_relation(database=target.database, schema=generate_schema_name("seed"), identifier="data_test__get_where_subquery") }} where id = 1) dbt_subquery' as expected
 
 -- ref error
 {%- set result_node -%}
@@ -97,8 +97,8 @@ config:
 union all
 select  'source without where' as test_case,
         '{{ result_node | escape }}' as input,
-        '{{  dq_tools.__get_where_subquery(test_model, result_node.config) | replace("`","") }}' as actual,
-        '{{ target.database }}.dq_tools_integration_tests_seed.data_test__get_where_subquery' as expected
+        '{{  dq_tools.__get_where_subquery(test_model, result_node.config) }}' as actual,
+        '{{ source("artifacts_seed", "data_test__get_where_subquery") }}' as expected
 
 -- source with where
 {%- set result_node -%}
@@ -114,8 +114,8 @@ config:
 union all
 select  'source with where' as test_case,
         '{{ result_node | escape }}' as input,
-        '{{  dq_tools.__get_where_subquery(test_model, result_node.config) | replace("`","") }}' as actual,
-        '(select * from {{ target.database }}.dq_tools_integration_tests_seed.data_test__get_where_subquery where id = 1) dbt_subquery' as expected
+        '{{  dq_tools.__get_where_subquery(test_model, result_node.config) }}' as actual,
+        '(select * from {{ source("artifacts_seed", "data_test__get_where_subquery") }} where id = 1) dbt_subquery' as expected
 
 -- source error
 {%- set result_node -%}

@@ -1,0 +1,7 @@
+version: 2
+
+macros:
+  - name: __get_test_coverage_exclusion
+    description: Returns rules for test coverage exclusion
+  - name: __get_test_coverage_exclusion_sql
+    description: Returns rules for test coverage exclusion as a `WHERE` condition

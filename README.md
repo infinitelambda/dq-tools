@@ -17,28 +17,31 @@ The purpose of the dq tool is to make simple storing test results and visualisat
 **Installation**:
 
 - Add to `packages.yml` file:
+
   ```yml
   packages:
     - package: infinitelambda/dq_tools
-      version: [">=1.2.0", "<1.3.0"]
+      version: [">=1.3.0", "<1.4.0"]
   ```
 - Configure schema in `dbt_project.yml` file:
+
   ```yml
   vars:
-    # to create db table in the schema named as AUDIT
+    # (optional) to create db table in the schema named as AUDIT, default to `target.schema` if not specified
     dbt_dq_tool_schema: AUDIT
   ```
 
-- Add on-run-start hook:
-  ```yml
-  on-run-start:
-    - '{{ dq_tools.create_dq_issue_log() }}'
-  ```
-
 - Add on-run-end hook:
+
   ```yml
   on-run-end:
     - '{{ dq_tools.store_test_results(results) }}'
+  ```
+
+- Initialize `dq-tools`:
+
+  ```bash
+  dbt run -s dq_tools 
   ```
 
 See [Installation Instructions](#installation-instructions) in more details.

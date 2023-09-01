@@ -29,18 +29,15 @@ NC='\033[0m' # No Color
 
 # Run the test
 echo -e "${BLUE}1: Perform Failures intentionally inc Errors / w Fresh enviroment${NC}"
+dbt run -s dq_tools --vars '{dbt_dq_tool_full_refresh: true, fresh: true}' --full-refresh --target $1
 { # try
-  dbt build --select tag:failed --vars '{dq_tools_enable_store_test_results: true, fresh: true}' --target $1 $_models
+  dbt build --select tag:failed --vars '{dq_tools_enable_store_test_results: true}' --target $1 $_models
 } || { # catch
   echo -e "${YELLOW}Failed exit code: Intentional SKIP test failures${NC}"
 }
-dbt seed --target $1 $_models || exit 1
 
-echo -e "${BLUE}2: Verify macros / Turn warns as errors${NC}"
+echo -e "${BLUE}2: Verify macros & models / Turn warns as errors${NC}"
 dbt --warn-error build --exclude source:dq_tools_test+ tag:failed --vars '{dq_tools_enable_store_test_results: true}' --target $1 $_models || exit 1
-
-echo -e "${BLUE}2: Enable & Verify models / Turn warns as errors${NC}"
-dbt --warn-error build --select +tag:dq+ --exclude source:dq_tools_test --vars '{dq_tools_enable_store_test_results: true}' --target $1 $_models || exit 1
 
 echo -e "${BLUE}3: Verify log table / Turn warns as errors${NC}"
 dbt --warn-error test --select source:dq_tools_test --target $1 || exit 1
