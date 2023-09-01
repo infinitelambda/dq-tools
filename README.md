@@ -38,7 +38,7 @@ The purpose of the dq tool is to make simple storing test results and visualisat
     - '{{ dq_tools.store_test_results(results) }}'
   ```
 
-- Initialize `dq-tools`:
+- Initialize `dq-tools` (new in v1.4+)
 
   ```bash
   dbt run -s dq_tools 
