@@ -9,9 +9,9 @@ jobs:
     strategy:
       matrix:
         adapter: ["snowflake"]
-        version: ["1.6"]
+        version: ["1.6.1"]
     container:
-      image: "ghcr.io/dbt-labs/dbt-${{ matrix.adapter }}:${{ matrix.version }}.latest"
+      image: "ghcr.io/dbt-labs/dbt-${{ matrix.adapter }}:${{ matrix.version }}"
 
     permissions:
       pages: write      # to deploy to Pages
