@@ -46,5 +46,7 @@ if [ $1 == "snowflake" ]; then
   echo -e "${BLUE}4: Make sure the metrics working {NC}"
   dbt parse --target $1 || exit 1
   mf list metrics
-  mf query --metrics data_quality_score --group-by key__run_time --group-by key__dq_dimension --explain
+  mf query --metrics data_quality_score --group-by key__run_time --group-by key__dq_dimension
+  mf query --metrics test_coverage --group-by key__check_timestamp --group-by key__invocation_id
+  mf query --metrics test_to_column_ratio --group-by key__check_timestamp --group-by key__invocation_id
 fi

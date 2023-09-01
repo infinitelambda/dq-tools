@@ -11,7 +11,7 @@ jobs:
       max-parallel: 1
       matrix:
         adapter: ["snowflake"]
-        version: ["1.6.2"]
+        version: ["1.6.1"]
     container:
       image: "ghcr.io/dbt-labs/dbt-${{ matrix.adapter }}:${{ matrix.version }}"
     steps:
@@ -42,7 +42,7 @@ jobs:
       max-parallel: 1
       matrix:
         adapter: ["bigquery"]
-        version: ["1.6.4"]
+        version: ["1.6.3"]
     container:
       image: "ghcr.io/dbt-labs/dbt-${{ matrix.adapter }}:${{ matrix.version }}"
     steps:

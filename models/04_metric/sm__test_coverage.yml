@@ -1,0 +1,25 @@
+semantic_models:
+  - name: test_coverage
+    model: ref('test_coverage')
+    defaults:
+      agg_time_dimension: check_timestamp
+    entities:
+      - name: key
+        type: primary
+        expr: > 
+          concat(
+            check_timestamp,
+            invocation_id
+          )
+    measures:
+      - name: coverage_pct
+        agg: average
+      - name: test_to_column_ratio
+        agg: average
+    dimensions:
+      - name: check_timestamp
+        type: time
+        type_params:
+          time_granularity: day
+      - name: invocation_id
+        type: categorical
