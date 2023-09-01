@@ -1,0 +1,33 @@
+semantic_models:
+  - name: data_quality_score
+    model: ref('bi_dq_metrics')
+    defaults:
+      agg_time_dimension: run_time
+    entities:
+      - name: key
+        type: primary
+        expr: > 
+          concat(
+            run_time,
+            rule_name,
+            data_concept,
+            data_element,
+            indicator_category
+          )
+    measures:
+      - name: data_quality_score
+        agg: average
+        expr: (rows_processed - rows_failed) * 1.00 / (rows_processed)
+    dimensions:
+      - name: run_time
+        type: time
+        type_params:
+          time_granularity: day
+      - name: rule_name
+        type: categorical
+      - name: data_concept
+        type: categorical
+      - name: data_element
+        type: categorical
+      - name: dq_dimension
+        type: categorical

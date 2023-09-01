@@ -51,9 +51,4 @@ seeds:
 models:
   dq_tools:
     03_mart:
-      +enabled: true
       +schema: dq_tools_mart
-
-metrics:
-  dq_tools:
-    +enabled: true

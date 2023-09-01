@@ -41,3 +41,12 @@ dbt --warn-error build --exclude source:dq_tools_test+ tag:failed --vars '{dq_to
 
 echo -e "${BLUE}3: Verify log table / Turn warns as errors${NC}"
 dbt --warn-error test --select source:dq_tools_test --target $1 || exit 1
+
+if [ $1 == "snowflake" ]; then
+  echo -e "${BLUE}4: Make sure the metrics working {NC}"
+  dbt parse --target $1 || exit 1
+  mf list metrics
+  mf query --metrics data_quality_score --group-by key__run_time --group-by key__dq_dimension
+  mf query --metrics test_coverage --group-by key__check_timestamp --group-by key__invocation_id
+  mf query --metrics test_to_column_ratio --group-by key__check_timestamp --group-by key__invocation_id
+fi

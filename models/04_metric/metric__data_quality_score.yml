@@ -1,0 +1,7 @@
+metrics:
+  - name: data_quality_score
+    description: Data Quality Score based on the Testing Result which is calculaed by looking at Row Passed/Row Processed.
+    type: simple
+    type_params:
+      measure: data_quality_score
+    label: Data Quality Score
