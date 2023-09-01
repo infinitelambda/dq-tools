@@ -1,0 +1,7 @@
+metrics:
+  - name: test_to_column_ratio
+    description: Ratio between the number of tests vs the number of columns
+    type: simple
+    type_params:
+      measure: test_to_column_ratio
+    label: Test to Column Ratio

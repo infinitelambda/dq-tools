@@ -1,0 +1,7 @@
+metrics:
+  - name: test_coverage
+    description: Percentage of test coverage by each dbt invocation
+    type: simple
+    type_params:
+      measure: coverage_pct
+    label: Test Coverage
