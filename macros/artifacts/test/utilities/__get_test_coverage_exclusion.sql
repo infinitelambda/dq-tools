@@ -38,10 +38,12 @@
             {%- endfor -%}
           )
         )
-        or 
+      {%- else -%}
+        --no database exclusions
       {%- endif %}
-
+      
       {% if rule.schemas -%}
+        {% if rule.databases %}or{% endif %}
         (
           lower(split({{ table_name }}, '.')[1]) in (
             {%- for rule in rule.schemas -%}
@@ -49,10 +51,12 @@
             {%- endfor -%}
           )
         )
-        or 
+      {%- else -%}
+        --no schema exclusions
       {%- endif %}
-
+      
       {% if rule.tables -%}
+        {% if rule.databases or rule.schemas %}or{% endif %}
         (
           lower(split({{ table_name }}, '.')[2]) in (
             {%- for rule in rule.tables -%}
@@ -60,6 +64,12 @@
             {%- endfor -%}
           )
         )
+      {%- else -%}
+        --no table exclusions
+      {%- endif %}
+      
+      {% if not rule.databases and not rule.schemas and not rule.tables -%}
+        0=1
       {%- endif %}
     )
   {%- endset %}
