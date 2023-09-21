@@ -17,7 +17,7 @@ semantic_models:
     measures:
       - name: data_quality_score
         agg: average
-        expr: (rows_processed - rows_failed) * 1.00 / (rows_processed)
+        expr: (rows_processed - rows_failed) * 1.00 / nullif(rows_processed,0)
     dimensions:
       - name: run_time
         type: time
