@@ -42,6 +42,7 @@ models:
           - Uniqueness
           - Completeness
           - Consistency
+          - Other
         tests:
           - not_null
           - accepted_values:
@@ -52,6 +53,7 @@ models:
                 - Uniqueness
                 - Completeness
                 - Consistency
+                - Other
       - name: rows_processed
         description: Number of rows were proceeded
         tests:

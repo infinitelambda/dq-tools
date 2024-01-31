@@ -29,6 +29,7 @@ models:
           - Uniqueness
           - Completeness
           - Consistency
+          - Other
         tests:
           - not_null
           - accepted_values:
@@ -39,6 +40,7 @@ models:
                 - Uniqueness
                 - Completeness
                 - Consistency
+                - Other
       - name: indicator_category
         description: Indicator category, currently support only 'Simple Statistics'. We might add more in the future e.g. Pattern Matching
         tests:
