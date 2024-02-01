@@ -38,4 +38,3 @@ with dq_metrics_only as (
 
 select  *, rows_processed - rows_failed as rows_passed
 from    dq_metrics_only
-where   dq_dimension <> 'Other'
