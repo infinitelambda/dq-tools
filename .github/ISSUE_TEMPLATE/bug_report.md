@@ -4,7 +4,6 @@ about: Report a bug or an issue you've found with this package
 title: ''
 labels: bug
 assignees: ''
-
 ---
 
 ### Describe the bug
@@ -33,21 +32,19 @@ If applicable, add screenshots or log output to help explain your problem.
 --->
 
 ### System information
+
 **The contents of your `packages.yml` file:**
 
 **Which database are you using dbt with?**
-- [ ] postgres
-- [ ] redshift
+
 - [ ] bigquery
 - [ ] snowflake
-- [ ] other (specify: ____________)
-
 
 **The output of `dbt --version`:**
-```
+
+```log
 <output goes here>
 ```
-
 
 ### Additional context
 <!---

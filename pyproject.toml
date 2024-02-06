@@ -5,16 +5,20 @@ description = "Data Quality package"
 authors = ["IL <dat@infinitelambda.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-dbt-core = "~1.6.0"
-dbt-snowflake = "~1.6.0"
-dbt-metricflow = {extras = ["snowflake"], version = "~1.6.0"}
-# dbt-bigquery = "~1.6.0"
-# dbt-metricflow = {extras = ["bigquery"], version = "~1.6.0"}
+python = ">=3.9,<3.12"
+dbt-snowflake = "~1.7.0"
+dbt-bigquery = "~1.7.0"
+dbt-metricflow = {extras = ["snowflake", "bigquery"], version = "~0.5.0"}
 
 [tool.poetry.dev-dependencies]
-poethepoet = "^0.12.3"
 pre-commit = "^2.17.0"
+poethepoet = "^0.16.4"
+sqlfluff = "^2.3.5"
+sqlfluff-templater-dbt = "^2.3.5"
+mkdocs = "^1.5.3"
+mkdocs-material = "^9.4.8"
+mkdocs-minify-plugin = "^0.7.1"
+mike = "^2.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -22,3 +26,12 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks]
 git-hooks = { "shell" = "pre-commit install --install-hooks && pre-commit install --hook-type commit-msg" }
+dq-tools-test-local = [
+  {cmd = "./run_test.sh snowflake local"},
+]
+dq-tools-test-snowflake = [
+  {cmd = "./run_test.sh snowflake"},
+]
+dq-tools-test-bigquery = [
+  {cmd = "./run_test.sh snowflake"},
+]

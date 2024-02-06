@@ -1,5 +1,4 @@
 *.DS_Store
-poetry.lock
 profiles.yml
 target/
 dbt_modules/
