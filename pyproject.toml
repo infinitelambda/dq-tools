@@ -33,5 +33,5 @@ dq-tools-test-snowflake = [
   {cmd = "./run_test.sh snowflake github"},
 ]
 dq-tools-test-bigquery = [
-  {cmd = "./run_test.sh snowflake github"},
+  {cmd = "./run_test.sh bigquery github"},
 ]
