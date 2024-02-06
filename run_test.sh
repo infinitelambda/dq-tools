@@ -8,16 +8,19 @@ dbt --version
 
 # Set the profile
 cd integration_tests
-cp ci/sample.profiles.yml profiles.yml
-export DBT_PROFILES_DIR=.
-export DBT_SCHEMA=${DBT_SCHEMA//./_}
+
+if [ $2 != "local" ]; then
+  cp ci/sample.profiles.yml profiles.yml
+  export DBT_PROFILES_DIR=.
+  export DBT_SCHEMA=${DBT_SCHEMA//./_}
+fi
 
 # Show the location of the profiles directory and test the connection
 dbt debug --target $1
 
 # Select model to run (if any) e.g. `./run_test.sh snowflake +my_model`
 _models=""
-if [[ ! -z $2 ]]; then _models="--select $2"; fi
+if [[ ! -z $3 ]]; then _models="--select $3"; fi
 
 # Install dbt packages
 dbt deps --target $1 || exit 1
