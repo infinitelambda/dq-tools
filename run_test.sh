@@ -10,9 +10,9 @@ dbt --version
 cd integration_tests
 
 if [ $2 != "local" ]; then
-cp ci/sample.profiles.yml profiles.yml
-export DBT_PROFILES_DIR=.
-export DBT_SCHEMA=${DBT_SCHEMA//./_}
+  cp ci/sample.profiles.yml profiles.yml
+  export DBT_PROFILES_DIR=.
+  export DBT_SCHEMA=${DBT_SCHEMA//./_}
 fi
 
 # Show the location of the profiles directory and test the connection
