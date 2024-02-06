@@ -28,7 +28,7 @@ jobs:
           poetry install
 
       - name: Test dq-tools
-        run: dq-tools-test-snowflake
+        run: poetry run poe dq-tools-test-snowflake
         env:
           DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
           DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
@@ -61,7 +61,7 @@ jobs:
           poetry install
 
       - name: Test dq-tools
-        run: dq-tools-test-bigquery
+        run: poetry run poe dq-tools-test-bigquery
         env:
           DBT_SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_TEST_ACCOUNT }}
           DBT_SNOWFLAKE_TEST_USER: ${{ secrets.DBT_SNOWFLAKE_TEST_USER }}
