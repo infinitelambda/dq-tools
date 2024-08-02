@@ -1,8 +1,6 @@
 {{
   config(
-    tags = ['dq'],
-    database = var('dbt_dq_tool_database', target.database),
-    schema = var('dbt_dq_tool_schema', target.schema),
+    tags = ['dq']
   )
 }}
 
