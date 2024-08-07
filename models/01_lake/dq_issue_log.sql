@@ -1,7 +1,5 @@
 {{
   config(
-    database = var('dbt_dq_tool_database', target.database),
-    schema = var('dbt_dq_tool_schema', target.schema),
     materialized = 'incremental',
     on_schema_change = 'append_new_columns',
     full_refresh = var('dbt_dq_tool_full_refresh', false)
