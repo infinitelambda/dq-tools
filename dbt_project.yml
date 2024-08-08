@@ -23,3 +23,8 @@ vars:
   # >> for metricflow
   # dbt_dq_tool_start_date
   # dbt_dq_tool_end_date
+
+models:
+  dq_tools:
+    +database: "{{ var('dbt_dq_tool_database', target.database) }}"
+    +schema: "{{ var('dbt_dq_tool_schema', target.schema) }}"
