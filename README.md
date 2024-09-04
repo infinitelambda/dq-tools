@@ -156,7 +156,7 @@ It should be created automatically within your upstream dbt command. If not, all
 
 ### 2. Configure your DQ schema with `dbt_dq_tool_schema` variable:
 
-Value for variable `dbt_dq_tool_schema: your_schema_name` needs to be added to dbt_profile.yml file in your project. And then, optionally add `dbt_dq_tool_database: your_database_name` which default value is `target.schema` in `profiles.yml` file
+Value for variable `dbt_dq_tool_schema: your_schema_name` needs to be added to dbt_project.yml file in your project. And then, optionally add `dbt_dq_tool_database: your_database_name` which default value is `target.schema` in `profiles.yml` file
 
 e.g.
 
