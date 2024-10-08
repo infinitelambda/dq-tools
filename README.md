@@ -32,7 +32,7 @@ The purpose of the dq tool is to make simple storing test results and visualisat
       # +database: DQ
       +schema: AUDIT
       
-  vars: # (TO BE DEPRECATED)
+  vars: # (TO BE DEPRECATED, currently used only in test macros)
     # dbt_dq_tool_database: DQ
     dbt_dq_tool_schema: AUDIT
   ```
