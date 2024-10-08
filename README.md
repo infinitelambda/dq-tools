@@ -50,6 +50,20 @@ The purpose of the dq tool is to make simple storing test results and visualisat
   dbt run -s dq_tools 
   ```
 
+ - Then, decide to save the test result in dbt command:
+
+   ```bash
+   dbt test --vars '{dq_tools_enable_store_test_results: True}'
+   dbt build --vars '{dq_tools_enable_store_test_results: True}'
+   ```
+ 
+   Alternatively, we can also enable this variable in <code>dbt_project.yml`</code>:
+   ```yml
+   vars:
+     # to store the test results in db table
+     dq_tools_enable_store_test_results: True
+   ```
+
 See [Installation Instructions](#installation-instructions) in more details.
 
 ## 3 Functional layers
