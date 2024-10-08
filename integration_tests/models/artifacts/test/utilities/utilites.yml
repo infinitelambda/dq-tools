@@ -2,10 +2,10 @@ version: 2
 
 models:
   - name: test__get_test_coverage_exclusion
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected
   - name: test__get_test_coverage_exclusion_sql
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected

@@ -4,11 +4,8 @@
 
     {% for item in graph.sources.values() | selectattr("source_name", "equalto", source_name) %}
       {% if item.name == table_name %}
-
-        {% set relation -%}
-          {{ source(source_name, table_name) }}
-        {%- endset %}
-        {{ return(relation) }}
+      
+        {{ return(source(source_name, table_name)) }}
 
       {% endif %}
     {% endfor %}

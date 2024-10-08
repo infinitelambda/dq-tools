@@ -8,18 +8,18 @@ sources:
 
 models:
   - name: test__get_relation_ref
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected
   - name: test__get_relation_source
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected
   - name: test__get_relation
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected
   - name: test__get_to_relation
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected

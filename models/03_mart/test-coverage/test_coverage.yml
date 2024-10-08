@@ -9,50 +9,50 @@ models:
     columns:
       - name: invocation_id
         description: dbt invocation id
-        tests:
+        data_tests:
           - not_null
           - unique
       - name: check_timestamp
         description: dbt test timestamp
-        tests:
+        data_tests:
           - not_null
       - name: all_tested_columns
         description: Total number of columns which having at least 1 test case
-        tests:
+        data_tests:
           - not_null
       - name: all_columns
         description: Total number of columns (inc tested & non-tested) catpured at the invocation time
-        tests:
+        data_tests:
           - not_null
       - name: all_tested_tables
         description: Total number of tables which having at least 1 tested column
-        tests:
+        data_tests:
           - not_null
       - name: all_tables
         description: Total number of tables (inc tested & non-tested) catpured at the invocation time
-        tests:
+        data_tests:
           - not_null
       - name: test_count
         description: Total number of test cases
-        tests:
+        data_tests:
           - not_null
       - name: column_record_coverage_pct
         description: Percentage of row scanned per all rows
-        tests:
+        data_tests:
           - not_null
       - name: column_coverage_pct
         description: Percentage of number of tested columns per all columns
-        tests:
+        data_tests:
           - not_null
       - name: model_coverage_pct
         description: Percentage of number of tested table per all tables
-        tests:
+        data_tests:
           - not_null
       - name: coverage_pct
         description: Test coverage per invocation
-        tests:
+        data_tests:
           - not_null
       - name: test_to_column_ratio
         description: Test to Column ratio per invocation
-        tests:
+        data_tests:
           - not_null

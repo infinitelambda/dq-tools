@@ -2,7 +2,7 @@ version: 2
 
 seeds:
   - name: data_test_equality_a
-    tests:
+    data_tests:
       - dq_tools.equality_where_db:
           compare_model: ref('data_test_equality_b')
           compare_columns: ['id']

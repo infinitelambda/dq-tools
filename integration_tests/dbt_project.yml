@@ -50,5 +50,6 @@ seeds:
 
 models:
   dq_tools:
+    +schema: dq_raw
     03_mart:
       +schema: dq_tools_mart
