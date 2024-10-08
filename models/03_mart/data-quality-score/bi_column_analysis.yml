@@ -6,15 +6,15 @@ models:
     columns:
       - name: run_time
         description: Test running timestamp
-        tests:
+        data_tests:
           - not_null
       - name: analysis_name
         description: Analysis name, will be used to build the Data quality KPI name
-        tests:
+        data_tests:
           - not_null
       - name: table_name
         description: The model name of the test
-        tests:
+        data_tests:
           - not_null:
               config:
                 where: analysis_name != 'business test'
@@ -30,7 +30,7 @@ models:
           - Completeness
           - Consistency
           - Other
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values:
@@ -43,18 +43,18 @@ models:
                 - Other
       - name: indicator_category
         description: Indicator category, currently support only 'Simple Statistics'. We might add more in the future e.g. Pattern Matching
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values:
                 - Simple Statistics
       - name: rows_processed
         description: Row proceeded in the test
-        tests:
+        data_tests:
           - not_null:
               config:
                 where: analysis_name != 'business test'
       - name: indicator_value
         description: Indicator value, currenly it is row failed in the test in the category of Simple Statistics
-        tests:
+        data_tests:
           - not_null

@@ -4,14 +4,14 @@ seeds:
   - name: data_test_relationships_b
     columns:
       - name: b_id
-        tests:
+        data_tests:
           - dq_tools.relationships_where_db:
               to: ref('data_test_relationships_a')
               field: a_id
   - name: data_test_relationships_a
     columns:
       - name: a_id
-        tests:
+        data_tests:
           - dq_tools.relationships_where_db:
               from_condition: a_id < 0
               to: ref('data_test_relationships_b')

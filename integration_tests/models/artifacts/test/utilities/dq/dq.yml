@@ -2,10 +2,10 @@ version: 2
 
 models:
   - name: test__get_dq_issue_type
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected
   - name: test__get_kpi_categorize
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected

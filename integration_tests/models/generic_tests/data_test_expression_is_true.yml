@@ -2,21 +2,21 @@ version: 2
 
 seeds:
   - name: data_test_expression_is_true
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           where: id != -1
           expression: (age is not null and name is not null)
     columns:
       - name: id
-        tests:
+        data_tests:
           - dq_tools.expression_is_true_db:
               expression: id is not null
       - name: name
-        tests:
+        data_tests:
           - dq_tools.expression_is_true_db:
               where: id != -1
               expression: length(name) = 1
       - name: age
-        tests:
+        data_tests:
           - dq_tools.expression_is_true_db:
               expression: age > 0

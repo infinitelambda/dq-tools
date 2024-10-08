@@ -24,11 +24,16 @@ The purpose of the dq tool is to make simple storing test results and visualisat
       version: [">=1.4.0", "<1.5.0"]
   ```
 
-- Configure schema in `dbt_project.yml` file:
+- (Optional) Configure schema in `dbt_project.yml` file:
 
   ```yml
-  vars:
-    # (optional) to create db table in the schema named as AUDIT, default to `target.schema` if not specified
+  models:
+    dq_tools:
+      # +database: DQ
+      +schema: AUDIT
+      
+  vars: # (TO BE DEPRECATED)
+    # dbt_dq_tool_database: DQ
     dbt_dq_tool_schema: AUDIT
   ```
 
@@ -75,7 +80,7 @@ models:
   - name: my_model
     columns:
       - name: my_column
-        tests:
+        data_tests:
           - dq_tools.unique_where_db:
               kpi_category: MyKPI # not recommended
 ```
@@ -88,14 +93,14 @@ models:
   - create metrics views
   - set up looker dashboard
 
-- STEP 2 - define dbt tests:
+- STEP 2 - define dbt data_tests:
   Define tests following the description in the package documentation.
 
   ```yaml
   models:
   - name: dim_customers
     description: This table has basic information about a customer, as well as some derived facts based on a customer's orders
-    tests:
+    data_tests:
       - dq_tools.equal_rowcount_where_db:
           compare_model: ref('stg_customers')
           where: customer_id > 50
@@ -103,7 +108,7 @@ models:
     columns:
       - name: customer_id
         description: This is a unique identifier for a customer
-        tests:
+        data_tests:
           - dq_tools.unique_where_db
           - dq_tools.not_null_where_db
   ```
@@ -321,7 +326,7 @@ models:
   - name: my_model
     columns:
       - name: id
-        tests:
+        data_tests:
           - dq_tools.not_null_where_db:
               where: "_deleted = false"
               severity_level: error
@@ -347,7 +352,7 @@ models:
   - name: model_name
     columns:
       - name: id
-        tests:
+        data_tests:
           - dq_tools.relationships_where_db:
               to: ref('other_model_name')
               field: client_id
@@ -376,7 +381,7 @@ models:
   - name: my_model
     columns:
       - name: id
-        tests:
+        data_tests:
           - dq_tools.unique_where_db:
               where: "_deleted = false"
               severity_level: error
@@ -400,7 +405,7 @@ version: 2
 
 models:
   - name: model_name
-    tests:
+    data_tests:
       - dq_tools.recency_db:
           datepart: day
           field: created_at
@@ -426,7 +431,7 @@ version: 2
 
 models:
   - name: model_name
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: "col_a + col_b = total"
           kpi_category: Validity
@@ -450,7 +455,7 @@ version: 2
 
 models:
   - name: model_name
-    tests:
+    data_tests:
       - dq_tools.accepted_values_where_db:
           values: [value1, value2]
           severity_level: warn
@@ -474,7 +479,7 @@ version: 2
 
 models:
   - name: model_name
-    tests:
+    data_tests:
       - dq_tools.equal_rowcount_where_db:
           compare_model: some_other_model
           where: "_deleted = false"
@@ -500,7 +505,7 @@ version: 2
 
 models:
   - name: model_name
-    tests:
+    data_tests:
       - dq_tools.equality_where_db:
           compare_model: some_other_model
           compare_columns:

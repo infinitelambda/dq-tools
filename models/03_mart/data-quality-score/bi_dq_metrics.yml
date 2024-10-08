@@ -12,15 +12,15 @@ models:
     columns:
       - name: run_time
         description: Test running timestamp
-        tests:
+        data_tests:
           - not_null
       - name: rule_name
         description: Rules will be used to build the Data quality KPI name
-        tests:
+        data_tests:
           - not_null
       - name: data_concept
         description: The data concept e.g. table/view, a subquery, etc
-        tests:
+        data_tests:
           - not_null:
               config:
                 where: rule_name != 'business test'
@@ -28,7 +28,7 @@ models:
         description: The data concept's element e.g. column
       - name: indicator_category
         description: Currently just support Simple Statistics
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values:
@@ -43,7 +43,7 @@ models:
           - Completeness
           - Consistency
           - Other
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values:
@@ -56,7 +56,7 @@ models:
                 - Other
       - name: rows_processed
         description: Number of rows were proceeded
-        tests:
+        data_tests:
           - not_null:
               config:
                 where: rule_name != 'business test'
@@ -66,7 +66,7 @@ models:
               expression: rows_failed >= 0
       - name: rows_failed
         description: Number of rows failed by the test
-        tests:
+        data_tests:
           - not_null
           - dq_tools.expression_is_true_db:
               expression: rows_failed >= 0

@@ -2,12 +2,12 @@ version: 2
 
 models:
   - name: test_failures
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: 1 / 0 # intentional error - this shouldn't be captured into result log
     columns:
       - name: col_non_zero
-        tests:
+        data_tests:
           - dq_tools.expression_is_true_db:
               expression: col_non_zero = 0 # intentional failure to check test result log
               severity: error

@@ -8,18 +8,18 @@ sources:
 
 models:
   - name: test__get_test_model
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected
   - name: test__get_test_name
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected
   - name: test__get_test_type
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected
   - name: test__get_where_subquery
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected

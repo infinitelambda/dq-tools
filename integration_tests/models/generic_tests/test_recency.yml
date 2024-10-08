@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: test_recency
-    tests:
+    data_tests:
       - dq_tools.recency_db:
           field: today
           datepart: day
@@ -13,7 +13,7 @@ models:
             kpi_category: Validity
     columns:
       - name: today
-        tests:
+        data_tests:
           - dq_tools.recency_db:
               datepart: hour
               interval: 24

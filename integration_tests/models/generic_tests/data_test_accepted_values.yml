@@ -4,7 +4,7 @@ seeds:
   - name: data_test_accepted_values
     columns:
       - name: yesno
-        tests:
+        data_tests:
           - dq_tools.accepted_values_where_db:
               values: ['Y','N','N/A']
           - dq_tools.accepted_values_where_db:

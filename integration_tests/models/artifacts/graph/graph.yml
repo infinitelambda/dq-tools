@@ -2,6 +2,6 @@ version: 2
 
 models:
   - name: test__get_tables_from_graph
-    tests:
+    data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected

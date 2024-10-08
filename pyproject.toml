@@ -6,9 +6,9 @@ authors = ["IL <dat@infinitelambda.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
-dbt-snowflake = "~1.7.0"
-dbt-bigquery = "~1.7.0"
-dbt-metricflow = {extras = ["snowflake", "bigquery"], version = "~0.5.0"}
+dbt-snowflake = "~1.8.0"
+dbt-bigquery = "~1.8.0"
+dbt-metricflow = {extras = ["snowflake", "bigquery"], version = "~0.7.0"}
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.17.0"
