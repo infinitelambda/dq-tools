@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: test_ephemeral_model
+    columns:
+      - name: col
+        data_tests:
+          - unique
+          - not_null

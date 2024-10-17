@@ -8,6 +8,7 @@
   {%- set test_type = dq_tools.__get_test_type(result.node) -%}
   {%- set testing_model = dq_tools.__get_test_model(result.node) -%}
   {%- set testing_model_relation = dq_tools.__get_relation(testing_model) -%}
+  {%- set materialization = dq_tools.__get_test_model_materialization(testing_model.name) -%}
   /* {{ testing_model }} */
 
   select   '{{ result.node.unique_id }}' as test_unique_id
@@ -25,15 +26,15 @@
                 sql_escape=true) }}' as table_query
           ,'{{ dq_tools.__get_to_relation(result.node) }}' as ref_table
           ,'{{ dq_tools.__get_column_name(result.node) | escape }}' as column_name
-          ,{% if test_type == 'generic' %}
+          ,{% if test_type == 'generic' and materialization != 'ephemeral' %}
               {{ adapter.get_columns_in_relation(testing_model_relation) | length }}
             {% else %}null{% endif %} as no_of_table_columns
           ,'{{ dq_tools.__get_to_column_name(result.node) | escape }}' as ref_column
-          ,{% if test_type == 'generic' %}(
+          ,{% if test_type == 'generic' and materialization != 'ephemeral' %}(
               select  count(*)
               from    {{ testing_model_relation }}
             ){% else %}null{% endif %} as no_of_records
-          ,{% if test_type == 'generic' %}(
+          ,{% if test_type == 'generic' and materialization != 'ephemeral' %}(
               select  count(*)
               from    {{ dq_tools.__get_where_subquery(testing_model, result.node.config) }}
             ){% else %}null{% endif %} as no_of_records_scanned
