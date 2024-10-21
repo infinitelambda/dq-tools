@@ -110,3 +110,7 @@ macros:
       ```
       (select * from {database}.{schema}.{table} where {where}) as dbt_subquery
       ```
+  
+  - name: __get_test_model_materialization
+    description: |
+      Return the materialization type of the model being tested (eg: table, view, ephemeral etc).

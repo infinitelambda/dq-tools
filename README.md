@@ -303,6 +303,7 @@ Since the version 1.4+, all models and metrics will be enabled by default.
 #### store_test_results ([source](https://github.com/infinitelambda/dq-tools/blob/main/macros/artifacts/test/store_test_results.sql))
 
 This macro is used to parse `results` variable at the `on-run-end` context to achieve the test result nodes, and save them to the `DQ_ISSUE_LOG` table.
+If the model is materialized as `ephemeral`, this macro will insert the null value for aggregated fields related to tested model.
 
 Usage:
 
