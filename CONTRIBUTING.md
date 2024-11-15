@@ -137,9 +137,9 @@ See here for details for running existing integration tests and adding new ones:
 
 For an example integration tests, check out the tests for the `not_null_where_db` test macro:
 
-1. [Macro definition](./../macros/generic_tests/test_not_null_where_db.sql)
-2. [Seed or Model file with fake data](./seeds/generic_tests/data_test_not_null.csv)
-3. [A generic test to assert the macro works as expected](./models/generic_tests/data_test_not_null.yml)
+1. [Macro definition](https://github.com/infinitelambda/dq-tools/blob/main/macros/generic_tests/test_not_null_where_db.sql)
+2. [Seed or Model file with fake data](https://github.com/infinitelambda/dq-tools/blob/main/integration_tests/seeds/generic_tests/data_test_not_null.csv)
+3. [A generic test to assert the macro works as expected](https://github.com/infinitelambda/dq-tools/blob/main/integration_tests/models/generic_tests/data_test_not_null.yml)
 
 Once you've added all of these files, you should be able to run:
 
