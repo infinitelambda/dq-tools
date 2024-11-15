@@ -21,7 +21,7 @@ The purpose of the dq tool is to make simple storing test results and visualisat
   ```yml
   packages:
     - package: infinitelambda/dq_tools
-      version: [">=1.4.0", "<1.5.0"]
+      version: [">=1.8.0", "<1.9.0"]
   ```
 
 - (Optional) Configure schema in `dbt_project.yml` file:
