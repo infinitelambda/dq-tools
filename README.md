@@ -150,6 +150,10 @@ Since the version 1.3, the table `dq_issue_log` is made as dbt model, no more ma
 
 It should be created automatically within your upstream dbt command. If not, all you should do that is running the command: `dbt run -s dq_tools`.
 
+> [!NOTE]
+> If you already have a `metricflow_time_spine` model in your project, you will encounter a Compilation error when executing `dbt run -s dq_tools`. In this scenario, disable the `metricflow_time_spine` model by updating its configuration in your project (path: your_project/dbt_packages/dq_tools/models/04_metric/metricflow_time_spine).
+
+
 <details>
   <summary>For dq-tools legacy version >=1.0,<1.3</summary>
 
