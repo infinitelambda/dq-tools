@@ -5,6 +5,11 @@
   )
 }}
 
+{#-
+  if you encounter a compilation error due to duplicated metricflow_time_spine node,
+  add enabled=false in the config block above 
+-#}
+
 --Check https://docs.getdbt.com/docs/build/metricflow-time-spine
 {% set start_date = var("dbt_dq_tool_start_date", "to_date('01/01/2000','mm/dd/yyyy')") -%}
 {% set end_date = var("dbt_dq_tool_end_date", "to_date('01/01/2030','mm/dd/yyyy')") -%}
