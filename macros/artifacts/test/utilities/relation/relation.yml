@@ -9,7 +9,7 @@ macros:
       Get to-relation string only applicable to the relationship test. Otherwise returns empty.
   - name: __get_relation_ref
     description: |
-      Find the ref node in `graph` variable and return the relation string if found. Otherwise empty.
+      Find the ref node in `graph` variable and return the relation string if found. If deferral is used, return the relation string based on the deferred environment. Otherwise empty.
   - name: __get_relation_source
     description: |
       Find the source node in `graph` variable and return the relation string if found. Otherwise empty.
