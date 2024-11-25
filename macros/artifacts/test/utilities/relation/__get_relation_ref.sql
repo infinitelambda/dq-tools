@@ -7,6 +7,14 @@
                           database=item.database,
                           schema=item.schema,
                           identifier=item.alias or item.name) %}
+
+      {% if relation is none and item.defer_relation %}
+        {% set relation = adapter.get_relation(
+                            database=item.defer_relation.database,
+                            schema=item.defer_relation.schema,
+                            identifier=item.defer_relation.alias or item.defer_relation.name) %}
+      {% endif %}
+      
       {{ return(relation) }}
     {% endfor %}
 
