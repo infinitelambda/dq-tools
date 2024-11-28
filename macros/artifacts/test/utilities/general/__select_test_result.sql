@@ -6,7 +6,6 @@
   {%- set dbt_cloud_run_id = env_var("DBT_CLOUD_ACCOUNT_ID", "manual") -%}
 
   {%- set test_type = dq_tools.__get_test_type(result.node) -%}
-  {%- set test_description = dq_tools.__get_test_description(result.node.unique_id) -%}
   {%- set testing_model = dq_tools.__get_test_model(result.node) -%}
   {%- set testing_model_relation = dq_tools.__get_relation(testing_model) -%}
   {%- set materialization = dq_tools.__get_test_model_materialization(testing_model.name) -%}
@@ -43,7 +42,7 @@
             ){% else %}null{% endif %} as no_of_records_scanned
           ,coalesce({{ result.failures or 'null' }}, 0) as no_of_records_failed
           ,'{{ test_type }}' as test_type
-          ,'{{ test_description }}' as test_description
+          ,'{{ result.node.description }}' as test_description
           ,'{{ result.execution_time }}' as execution_time_seconds
           ,'{{ result.node.original_file_path }}' as file_test_defined
           ,'{{ target.name }}' as dbt_target_name
