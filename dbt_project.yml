@@ -23,6 +23,7 @@ vars:
   # >> for metricflow
   # dbt_dq_tool_start_date
   # dbt_dq_tool_end_date
+  # dq_tools__auto_generate_test_description: 1 # Set 1 to automatically generate test description if not specified
 
 models:
   dq_tools:
