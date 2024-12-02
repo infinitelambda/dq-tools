@@ -4,7 +4,7 @@
 
 {% endmacro %}
 
-{% macro default__get_test_description(test_node) %}
+{% macro default____get_test_description(test_node) %}
 
     {%- set test_type = test_node.test_metadata.name -%}
     {%- set column_name = test_node.test_metadata.kwargs.column_name -%}
