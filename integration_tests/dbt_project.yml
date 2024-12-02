@@ -43,7 +43,7 @@ vars:
     by_database: ['dummy'] # dummy inputs
     by_schema: ['dq_tools_mart'] # exclude all dq_tools.03_mart
     by_table: ['dq_issue_log', 'dummy'] # dummy inputs
-  dq_tools__auto_generate_test_description: 1
+  dq_tools__auto_generate_test_description: "1"
 
 seeds:
   dq_tools_integration_tests:
