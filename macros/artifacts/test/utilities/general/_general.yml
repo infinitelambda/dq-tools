@@ -117,3 +117,16 @@ macros:
   - name: __get_test_model_materialization
     description: |
       Return the materialization type of the model being tested (eg: table, view, ephemeral etc).
+  
+
+  - name: __get_test_description
+    description: |
+      This macro retrieves the description of a test from a test node object.
+      If the description is not defined, it generates one based on the test type (e.g., unique, not_null, accepted_values, or relationships). 
+      Available for tests starting in dbt v1.9. 
+      Returns an empty string if no description is found or generated.
+    arguments:
+      - name: test_node
+        type: string
+        description: The unique identifier of the test node in the graph
+    return_value: (string) The test description or an empty string if none is found.
