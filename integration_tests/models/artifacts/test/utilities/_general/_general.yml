@@ -23,3 +23,8 @@ models:
     data_tests:
       - dq_tools.expression_is_true_db:
           expression: actual = expected
+  - name: test__get_test_description
+    data_tests:
+      - dq_tools.expression_is_true_db:
+          expression: actual = expected
+  
