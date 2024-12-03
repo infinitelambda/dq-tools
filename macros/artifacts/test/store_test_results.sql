@@ -46,6 +46,7 @@
       ,no_of_table_columns
       ,no_of_tables
       ,test_unique_id
+      ,test_description
     )
 
     with logs as (
@@ -75,6 +76,7 @@
               ,no_of_table_columns
               ,{{ no_of_tables }} as no_of_tables
               ,test_unique_id
+              ,test_description
 
     from      logs;
 
