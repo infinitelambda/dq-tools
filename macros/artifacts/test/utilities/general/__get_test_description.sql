@@ -7,7 +7,7 @@
 {% macro default____get_test_description(test_node) %}
 
     {% if test_node.description is defined and test_node.description %}
-
+        
         {{ return(test_node.description) }}
     
     {% elif dq_tools.__get_test_type(test_node) != 'singular' and var("dq_tools__auto_generate_test_description", "0") == "1" %}
@@ -35,5 +35,7 @@
         {{ return(generated_description) }}
 
     {% endif %}
+
+    {{ return('') }}
 
 {% endmacro %}
