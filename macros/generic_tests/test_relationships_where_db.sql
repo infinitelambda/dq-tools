@@ -86,7 +86,7 @@
     with left_table as (
 
         select
-          {{column_name}} as ref_id
+          {{column_name}} as ref_id_left
 
         from {{model}}
 
@@ -99,7 +99,7 @@
       right_table as (
 
         select
-          {{field}} as ref_id
+          {{field}} as ref_id_right
 
         from {{to}}
 
@@ -112,8 +112,8 @@
           *
       from left_table
           left join right_table
-          on left_table.ref_id = right_table.ref_id
-      where right_table.ref_id is null
+          on left_table.ref_id_left = right_table.ref_id_right
+      where right_table.ref_id_right is null
 
 
 {% endtest %}
