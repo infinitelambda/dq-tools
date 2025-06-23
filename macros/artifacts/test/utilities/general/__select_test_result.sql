@@ -38,12 +38,12 @@
           ,{% if test_type == 'generic' and materialization != 'ephemeral' %}(
               select  count(*)
               from    {{ testing_model_relation }}
-              {{ 'where' ~ test_row_condition if test_row_condition -}}
+              {{ 'where ' ~ test_row_condition if test_row_condition }}
             ){% else %}null{% endif %} as no_of_records
           ,{% if test_type == 'generic' and materialization != 'ephemeral' %}(
               select  count(*)
               from    {{ dq_tools.__get_where_subquery(testing_model, result.node.config) }}
-              {{ 'where' ~ test_row_condition if test_row_condition -}}
+              {{ 'where ' ~ test_row_condition if test_row_condition }}
             ){% else %}null{% endif %} as no_of_records_scanned
           ,coalesce({{ result.failures or 'null' }}, 0) as no_of_records_failed
           ,'{{ test_type }}' as test_type
