@@ -8,9 +8,10 @@
   {%- set test_type = dq_tools.__get_test_type(result.node) -%}
   {%- set testing_model = dq_tools.__get_test_model(result.node) -%}
   {%- set testing_model_relation = dq_tools.__get_relation(testing_model) -%}
+  {%- set test_row_condition = dq_tools.__get_row_condition(result.node) %}
   {%- set materialization = dq_tools.__get_test_model_materialization(testing_model.name) -%}
   {%- set test_description = dq_tools.__get_test_description(result.node) -%}
-
+  
   /* {{ testing_model }} */
 
   select   '{{ result.node.unique_id }}' as test_unique_id
@@ -37,10 +38,12 @@
           ,{% if test_type == 'generic' and materialization != 'ephemeral' %}(
               select  count(*)
               from    {{ testing_model_relation }}
+              {{ 'where' ~ test_row_condition if test_row_condition -}}
             ){% else %}null{% endif %} as no_of_records
           ,{% if test_type == 'generic' and materialization != 'ephemeral' %}(
               select  count(*)
               from    {{ dq_tools.__get_where_subquery(testing_model, result.node.config) }}
+              {{ 'where' ~ test_row_condition if test_row_condition -}}
             ){% else %}null{% endif %} as no_of_records_scanned
           ,coalesce({{ result.failures or 'null' }}, 0) as no_of_records_failed
           ,'{{ test_type }}' as test_type
