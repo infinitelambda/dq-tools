@@ -1,9 +1,9 @@
 {% if target.type == 'postgres' -%}
 
-select {{ date_trunc('day', dq_tools.current_timestamp()) }} as today
+select {{ date_trunc(dq_tools.current_timestamp(), 'day') }} as today
 
 {% else %}
 
-select cast({{ date_trunc('day', dq_tools.current_timestamp()) }} as datetime) as today
+select cast({{ date_trunc(dq_tools.current_timestamp()) }} as datetime, 'day') as today
 
 {%- endif %}
