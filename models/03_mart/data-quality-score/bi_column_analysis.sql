@@ -21,6 +21,6 @@ qualify row_number() over (
                 ref_table,
                 ref_column,
                 dq_issue_type,
-                {{ dq_tools.date_trunc('check_timestamp', 'day') }}
+                {{ dq_tools.date_trunc('day', 'check_timestamp') }}
   order by check_timestamp desc
 ) = 1
