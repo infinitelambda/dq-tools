@@ -93,6 +93,7 @@ macros:
       {
         'type': 'string: value is [ref or source]',
         'name': 'string: model name',
+        'version': 'string: model versionif type=ref',
         'package_name': 'string: available if type=ref',
         'source_name': 'string: available if type=source'
       }
@@ -130,3 +131,12 @@ macros:
         type: string
         description: The unique identifier of the test node in the graph
     return_value: (string) The test description or an empty string if none is found.
+
+  - name: __get_test_row_condition
+    description: | 
+      This macro is to extract test row condition supporting dbt_expectations test libary
+    arguments:
+      - name: test_node
+        type: string
+        description: The unique identifier of the test node in the grap
+    return_value: (string) The where clause condition defined in the data_tests

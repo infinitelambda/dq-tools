@@ -1,4 +1,4 @@
-{% macro __get_row_condition(test_node) %}
+{% macro __get_test_row_condition(test_node) %}
 
   {%- set row_condition = none -%}
 

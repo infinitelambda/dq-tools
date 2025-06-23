@@ -8,7 +8,7 @@
   {%- set test_type = dq_tools.__get_test_type(result.node) -%}
   {%- set testing_model = dq_tools.__get_test_model(result.node) -%}
   {%- set testing_model_relation = dq_tools.__get_relation(testing_model) -%}
-  {%- set test_row_condition = dq_tools.__get_row_condition(result.node) %}
+  {%- set test_row_condition = dq_tools.__get_test_row_condition(result.node) %}
   {%- set materialization = dq_tools.__get_test_model_materialization(testing_model.name) -%}
   {%- set test_description = dq_tools.__get_test_description(result.node) -%}
   
