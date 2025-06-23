@@ -25,19 +25,30 @@
 
   {%- set test_name = dq_tools.__get_test_name(test_node) -%}
   {# Accuracy #}
-  {% set accuracies = ['accepted_values'] %}
+  {% set accuracies = [
+    'accepted_values',
+    'expect_column_values_to_be_in_set',
+    'expect_column_values_to_not_be_in_set',
+    'expect_column_values_to_match_like_pattern',
+    'expect_column_values_to_match_regex'
+  ] %}
   {% for item in accuracies if item in test_name %}
     {{ return('Accuracy') }}
   {% endfor %}
 
   {# Consistency #}
-  {% set consistencies = ['equal_rowcount','equality','relationships'] %}
+  {% set consistencies = [
+    'equal_rowcount',
+    'equality',
+    'relationships',
+    'expect_column_distinct_count_to_equal_other_table'
+  ] %}
   {% for item in consistencies if item in test_name %}
     {{ return('Consistency') }}
   {% endfor %}
 
   {# Completeness #}
-  {% set completenesses = ['not_null'] %}
+  {% set completenesses = ['not_null', 'except_column_values_to_not_be_null'] %}
   {% for item in completenesses if item in test_name %}
     {{ return('Completeness') }}
   {% endfor %}
@@ -55,7 +66,7 @@
   {% endfor %}
 
   {# Uniqueness #}
-  {% set uniquenesses = ['unique'] %}
+  {% set uniquenesses = ['unique', 'expect_column_values_to_be_unique'] %}
   {% for item in uniquenesses if item in test_name %}
     {{ return('Uniqueness') }}
   {% endfor %}
