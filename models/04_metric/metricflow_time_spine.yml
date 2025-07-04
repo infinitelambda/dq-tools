@@ -1,6 +1,6 @@
 models:
-	- name: metricflow_time_spine
-		time_spine:
+  - name: metricflow_time_spine
+    time_spine:
       standard_granularity_column: date_day
     columns:
       - name: date_day
