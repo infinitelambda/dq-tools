@@ -8,7 +8,7 @@
   {%- set test_type = dq_tools.__get_test_type(result.node) -%}
   {%- set testing_model = dq_tools.__get_test_model(result.node) -%}
   {%- set testing_model_relation = dq_tools.__get_relation(testing_model) -%}
-  {%- set test_row_condition = dq_tools.__get_test_row_condition(result.node) %}
+  {# {%- set test_row_condition = dq_tools.__get_test_row_condition(result.node) %} #}
   {%- set materialization = dq_tools.__get_test_model_materialization(testing_model.name) -%}
   {%- set test_description = dq_tools.__get_test_description(result.node) -%}
   
@@ -37,13 +37,11 @@
           ,'{{ dq_tools.__get_to_column_name(result.node) | escape }}' as ref_column
           ,{% if test_type == 'generic' and materialization != 'ephemeral' %}(
               select  count(*)
-              from    {{ testing_model_relation }}
-              {{ 'where ' ~ test_row_condition if test_row_condition }}
+              from    {{ dq_tools.__get_where_subquery(testing_model, result.node.config) }}
             ){% else %}null{% endif %} as no_of_records
           ,{% if test_type == 'generic' and materialization != 'ephemeral' %}(
               select  count(*)
               from    {{ dq_tools.__get_where_subquery(testing_model, result.node.config) }}
-              {{ 'where ' ~ test_row_condition if test_row_condition }}
             ){% else %}null{% endif %} as no_of_records_scanned
           ,coalesce({{ result.failures or 'null' }}, 0) as no_of_records_failed
           ,'{{ test_type }}' as test_type
