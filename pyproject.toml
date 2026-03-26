@@ -10,7 +10,7 @@ dbt-snowflake = "~1.8.0"
 dbt-bigquery = "~1.8.0"
 dbt-metricflow = {extras = ["snowflake", "bigquery"], version = "~0.7.0"}
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pre-commit = "^2.17.0"
 poethepoet = "^0.16.4"
 sqlfluff = "^2.3.5"
