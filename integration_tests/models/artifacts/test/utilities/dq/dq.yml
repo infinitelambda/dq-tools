@@ -1,5 +1,3 @@
-version: 2
-
 models:
   - name: test__get_dq_issue_type
     data_tests:

@@ -1,5 +1,3 @@
-version: 2
-
 seeds:
   - name: data_test_expression_is_true
     data_tests:

@@ -1,5 +1,3 @@
-version: 2
-
 models:
   - name: bi_dq_metrics
     description: |
@@ -31,8 +29,9 @@ models:
         data_tests:
           - not_null
           - accepted_values:
-              values:
-                - Simple Statistics
+              arguments:
+                values:
+                  - Simple Statistics
       - name: dq_dimension
         description: |
           Data Quayliy KPI name - 6 values
@@ -46,14 +45,15 @@ models:
         data_tests:
           - not_null
           - accepted_values:
-              values:
-                - Validity
-                - Timeliness
-                - Accuracy
-                - Uniqueness
-                - Completeness
-                - Consistency
-                - Other
+              arguments:
+                values:
+                  - Validity
+                  - Timeliness
+                  - Accuracy
+                  - Uniqueness
+                  - Completeness
+                  - Consistency
+                  - Other
       - name: rows_processed
         description: Number of rows were proceeded
         data_tests:
@@ -63,10 +63,12 @@ models:
           - dq_tools.expression_is_true_db:
               config:
                 where: rule_name != 'business test'
-              expression: rows_failed >= 0
+              arguments:
+                expression: rows_failed >= 0
       - name: rows_failed
         description: Number of rows failed by the test
         data_tests:
           - not_null
           - dq_tools.expression_is_true_db:
-              expression: rows_failed >= 0
+              arguments:
+                expression: rows_failed >= 0

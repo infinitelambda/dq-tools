@@ -1,5 +1,3 @@
-version: 2
-
 models:
   - name: test__get_test_coverage_exclusion
     data_tests:

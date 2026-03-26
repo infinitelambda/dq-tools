@@ -1,5 +1,3 @@
-version: 2
-
 models:
   - name: test_coverage
     description: |
