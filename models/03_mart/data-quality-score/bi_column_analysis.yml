@@ -1,5 +1,3 @@
-version: 2
-
 models:
   - name: bi_column_analysis
     description: Providing some analysis as per column level.
@@ -33,21 +31,23 @@ models:
         data_tests:
           - not_null
           - accepted_values:
-              values:
-                - Validity
-                - Timeliness
-                - Accuracy
-                - Uniqueness
-                - Completeness
-                - Consistency
-                - Other
+              arguments:
+                values:
+                  - Validity
+                  - Timeliness
+                  - Accuracy
+                  - Uniqueness
+                  - Completeness
+                  - Consistency
+                  - Other
       - name: indicator_category
         description: Indicator category, currently support only 'Simple Statistics'. We might add more in the future e.g. Pattern Matching
         data_tests:
           - not_null
           - accepted_values:
-              values:
-                - Simple Statistics
+              arguments:
+                values:
+                  - Simple Statistics
       - name: rows_processed
         description: Row proceeded in the test
         data_tests:

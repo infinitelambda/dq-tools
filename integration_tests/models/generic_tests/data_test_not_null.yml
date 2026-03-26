@@ -1,5 +1,3 @@
-version: 2
-
 seeds:
   - name: data_test_not_null
     columns:

@@ -1,5 +1,3 @@
-version: 2
-
 macros:
   - name: store_test_results
     description: |

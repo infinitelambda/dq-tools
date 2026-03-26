@@ -1,5 +1,3 @@
-version: 2
-
 sources:
   - name: dq_tools_test
     # mimic default generate_database_name()

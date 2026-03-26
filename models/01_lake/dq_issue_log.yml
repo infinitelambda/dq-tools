@@ -1,5 +1,3 @@
-version: 2
-
 models:
   - name: dq_issue_log
     description: |

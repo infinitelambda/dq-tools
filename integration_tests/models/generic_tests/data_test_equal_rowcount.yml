@@ -1,5 +1,3 @@
-version: 2
-
 seeds:
   - name: data_test_equal_rowcount_a
     data_tests:
